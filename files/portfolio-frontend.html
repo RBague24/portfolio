@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dev Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Nunito',sans-serif;background:#000e22;color:#fff;line-height:1.6}
+a{color:#CE1126;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* ============================================
+   HEADER & NAV
+   ============================================ */
+header{background:rgba(0,14,34,.95);padding:20px 0;position:sticky;top:0;z-index:100;border-bottom:2px solid #CE1126}
+.header-content{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#CE1126}
+nav{display:flex;gap:30px;flex-wrap:wrap}
+nav button{background:none;border:none;color:#fff;cursor:pointer;font-size:16px;font-weight:600;transition:color .3s}
+nav button:hover{color:#CE1126}
+nav button.active{color:#CE1126;border-bottom:2px solid #CE1126;padding-bottom:5px}
+
+/* ============================================
+   PAGE STRUCTURE
+   ============================================ */
+.page{display:none;padding:60px 0;min-height:100vh}
+.page.active{display:block}
+
+/* ============================================
+   HERO / HOME PAGE
+   ============================================ */
+.hero{background:linear-gradient(135deg,rgba(0,14,34,.9),rgba(206,17,38,.3));padding:100px 0;text-align:center;color:#fff;position:relative;overflow:hidden}
+.hero h1{font-family:'Playfair Display',serif;font-size:56px;margin:20px 0;color:#fff}
+.hero .badge{display:inline-block;background:#CE1126;color:#fff;padding:10px 20px;border-radius:50px;margin:20px 0;font-size:14px;font-weight:700}
+.hero .stats{display:flex;justify-content:center;gap:60px;margin:40px 0;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:48px;font-weight:700;color:#CE1126}
+.stat-label{font-size:14px;color:#aaa;margin-top:5px;text-transform:uppercase}
+.cta-buttons{display:flex;gap:20px;justify-content:center;margin:40px 0;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 32px;background:#CE1126;color:#fff;border:2px solid #CE1126;border-radius:5px;cursor:pointer;font-weight:600;font-size:16px;transition:all .3s}
+.btn:hover{background:transparent;color:#CE1126}
+.btn.secondary{background:transparent;color:#CE1126}
+.btn.secondary:hover{background:#CE1126;color:#fff}
+.btn:focus{outline:none}
+
+/* ============================================
+   GRID SECTIONS
+   ============================================ */
+h2{font-family:'Playfair Display',serif;font-size:42px;margin:40px 0 30px;color:#fff;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:30px;margin:30px 0}
+
+/* PROYECTOS / PROJECTS */
+.area-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;padding:25px;cursor:pointer;transition:all .3s;text-align:center}
+.area-card:hover{border-color:#CE1126;transform:translateY(-5px);box-shadow:0 10px 30px rgba(206,17,38,.2)}
+.area-card h3{font-size:20px;margin:15px 0;color:#CE1126}
+.area-card p{font-size:14px;color:#aaa}
+
+/* PROJECT GRID INSIDE */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin:30px 0}
+.project-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;padding:20px;text-align:center;transition:all .3s;position:relative}
+.project-card:hover{border-color:#CE1126;transform:translateY(-5px)}
+.project-card h4{color:#CE1126;margin:10px 0}
+.project-card p{font-size:13px;color:#aaa}
+.delete-btn{position:absolute;top:10px;right:10px;background:#CE1126;border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.delete-btn:hover{background:#a00}
+
+/* ============================================
+   FREELANCE PORTFOLIO GRID
+   ============================================ */
+.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px;margin:30px 0}
+.portfolio-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;overflow:hidden;transition:all .3s;position:relative}
+.portfolio-card:hover{border-color:#CE1126;transform:translateY(-8px);box-shadow:0 12px 35px rgba(206,17,38,.25)}
+.portfolio-img{width:100%;height:220px;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;text-align:center;padding:15px;overflow:hidden}
+.portfolio-img img{width:100%;height:100%;object-fit:cover}
+.portfolio-info{padding:20px}
+.portfolio-info h4{color:#CE1126;margin:0 0 8px;font-size:18px}
+.portfolio-info p{font-size:13px;color:#aaa;margin:8px 0}
+
+/* ============================================
+   SERVICES GRID (PRICING CARDS)
+   ============================================ */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:30px;margin:40px 0}
+.service-card{background:rgba(20,30,50,.9);border:2px solid rgba(206,17,38,.2);border-radius:10px;padding:35px;text-align:center;transition:all .3s;position:relative}
+.service-card:hover{border-color:#CE1126;transform:translateY(-8px);box-shadow:0 15px 40px rgba(206,17,38,.3)}
+.service-card h3{font-size:22px;color:#CE1126;margin:0 0 10px}
+.service-price{font-size:36px;font-weight:700;color:#CE1126;margin:20px 0}
+.service-price .currency{font-size:20px}
+.service-desc{font-size:14px;color:#aaa;margin:20px 0;line-height:1.8;min-height:60px}
+.service-features{list-style:none;margin:20px 0;text-align:left}
+.service-features li{font-size:13px;color:#bbb;margin:10px 0;padding-left:25px;position:relative}
+.service-features li:before{content:"✓";position:absolute;left:0;color:#CE1126;font-weight:700}
+
+/* ============================================
+   COURSES SECTION
+   ============================================ */
+.course-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;padding:20px;margin:15px 0;position:relative}
+.course-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.course-title{font-size:18px;color:#CE1126;margin:0}
+.course-status{font-size:12px;padding:6px 12px;border-radius:20px;font-weight:600;text-transform:uppercase}
+.status-completed{background:rgba(76,175,80,.2);color:#4caf50}
+.status-progress{background:rgba(255,193,7,.2);color:#ffc107}
+.status-queued{background:rgba(156,39,176,.2);color:#9c27f0}
+.progress-bar{width:100%;height:6px;background:rgba(100,100,100,.3);border-radius:3px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:#CE1126;border-radius:3px;transition:width .3s}
+
+/* ============================================
+   DIPLOMAS SECTION
+   ============================================ */
+.diploma-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;padding:25px;margin:20px 0;display:flex;gap:25px;align-items:flex-start;position:relative}
+.diploma-img-slot{width:150px;height:200px;background:rgba(40,50,80,.5);border:1px dashed #CE1126;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#666;font-size:12px;text-align:center;flex-shrink:0}
+.diploma-img-slot img{width:100%;height:100%;object-fit:cover;border-radius:3px}
+.diploma-content h3{color:#CE1126;margin:0 0 8px;font-size:20px}
+.diploma-content p{font-size:14px;color:#aaa;margin:8px 0}
+
+/* ============================================
+   ABOUT / SOBRE MÍ
+   ============================================ */
+.about-hero{display:flex;gap:40px;align-items:flex-start;margin:40px 0;flex-wrap:wrap}
+.about-photo{width:200px;height:200px;background:#fff;border-radius:8px;overflow:hidden;flex-shrink:0}
+.about-photo img{width:100%;height:100%;object-fit:cover}
+.about-text h3{color:#CE1126;font-size:24px;margin:20px 0 15px}
+.about-text p{color:#ccc;margin:15px 0;line-height:1.8}
+
+.skills-section{margin:40px 0}
+.skills-section h3{color:#CE1126;font-size:22px;margin:20px 0}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
+.skill-tag{background:rgba(206,17,38,.2);border:1px solid #CE1126;color:#fff;padding:10px 16px;border-radius:5px;text-align:center;font-size:14px;font-weight:600}
+
+.timeline{position:relative;padding:20px 0}
+.timeline-item{padding:20px 0;padding-left:40px;position:relative;border-left:2px solid rgba(206,17,38,.3)}
+.timeline-item:last-child{border-left-color:transparent}
+.timeline-item:before{content:"";position:absolute;left:-8px;top:25px;width:14px;height:14px;background:#CE1126;border-radius:50%;border:3px solid #000e22}
+.timeline-item h4{color:#CE1126;margin:0 0 5px;font-size:16px}
+.timeline-item p{font-size:13px;color:#aaa;margin:5px 0}
+
+/* ============================================
+   MODALS
+   ============================================ */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.modal.active{display:flex}
+.modal-content{background:#000e22;border:2px solid #CE1126;border-radius:10px;padding:30px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;margin:auto}
+.modal-content h3{color:#CE1126;margin:0 0 20px;font-size:24px}
+.form-group{margin:20px 0}
+.form-group label{display:block;color:#ccc;font-weight:600;margin-bottom:8px;font-size:14px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px;background:#1a2a4a;border:1px solid #CE1126;border-radius:5px;color:#fff;font-family:inherit;font-size:14px}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:#fff}
+.form-actions{display:flex;gap:10px;margin-top:25px}
+.form-actions .btn{flex:1;font-size:14px}
+.close-modal{background:none;border:none;color:#CE1126;font-size:28px;cursor:pointer;position:absolute;top:15px;right:15px}
+.loading{color:#aaa;font-size:13px;margin-top:10px}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+.hidden{display:none}
+.mt-40{margin-top:40px}
+footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);color:#666;font-size:13px;margin-top:60px}
+
+@media (max-width:768px){
+  nav{gap:15px;font-size:14px}
+  .hero h1{font-size:36px}
+  .grid{grid-template-columns:1fr}
+  .about-hero{flex-direction:column}
+  .about-photo{width:100%}
+  .diploma-card{flex-direction:column}
+  .diploma-img-slot{width:100%;height:250px}
+  .portfolio-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">¡COQUÍ!</div>
+      <nav>
+        <button class="nav-btn active" onclick="go('inicio')">Inicio</button>
+        <button class="nav-btn" onclick="go('proyectos')">Proyectos</button>
+        <button class="nav-btn" onclick="go('freelance')">Freelance</button>
+        <button class="nav-btn" onclick="go('services')">Servicios</button>
+        <button class="nav-btn" onclick="go('cursos')">Cursos</button>
+        <button class="nav-btn" onclick="go('diplomas')">Diplomas</button>
+        <button class="nav-btn" onclick="go('sobremi')">Sobre Mí</button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================
+     INICIO (HOME)
+     ============================================ -->
+<div id="inicio" class="page active">
+  <div class="hero">
+    <div class="container">
+      <h1>¡COQUÍ! · SOFTWARE ENGINEER</h1>
+      <p style="font-size:18px;color:#bbb;margin:10px 0">Puerto Rican developer crafting beautiful web & software solutions</p>
+      <div class="badge">Based in Puerto Rico 🇵🇷</div>
+      
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num" id="stat-projects">0</div>
+          <div class="stat-label">Projects Complete</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-clients">0</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-courses">0</div>
+          <div class="stat-label">Courses Done</div>
+        </div>
+      </div>
+
+      <div class="cta-buttons">
+        <button class="btn" onclick="go('freelance')">View Freelance Work</button>
+        <button class="btn secondary" onclick="go('sobremi')">Learn More</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-40">
+    <h2>Featured Work</h2>
+    <p style="text-align:center;color:#aaa;margin-bottom:40px;font-size:16px">Explore my recent projects across different domains</p>
+    <div class="grid">
+      <div class="area-card" onclick="go('proyectos')">
+        <div style="font-size:32px;margin:15px 0">🎮</div>
+        <h3>Game Dev</h3>
+        <p>Interactive gaming experiences with engaging mechanics</p>
+      </div>
+      <div class="area-card" onclick="go('proyectos')">
+        <div style="font-size:32px;margin:15px 0">🌐</div>
+        <h3>Web Development</h3>
+        <p>Modern responsive websites and web applications</p>
+      </div>
+      <div class="area-card" onclick="go('proyectos')">
+        <div style="font-size:32px;margin:15px 0">⚙️</div>
+        <h3>Software Dev</h3>
+        <p>Desktop and backend systems with clean architecture</p>
+      </div>
+      <div class="area-card" onclick="go('proyectos')">
+        <div style="font-size:32px;margin:15px 0">🤖</div>
+        <h3>AI/ML</h3>
+        <p>Machine learning models and intelligent systems</p>
+      </div>
+      <div class="area-card" onclick="go('proyectos')">
+        <div style="font-size:32px;margin:15px 0">📊</div>
+        <h3>Data Analytics</h3>
+        <p>Data processing and insightful visualizations</p>
+      </div>
+      <div class="area-card" onclick="go('proyectos')">
+        <div style="font-size:32px;margin:15px 0">☁️</div>
+        <h3>Cloud & DevOps</h3>
+        <p>Scalable cloud infrastructure and deployment</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     PROYECTOS (PROJECTS)
+     ============================================ -->
+<div id="proyectos" class="page">
+  <div class="container">
+    <h2>My Projects</h2>
+    
+    <div id="project-categories" style="margin-top:40px"></div>
+    
+    <div style="text-align:center;margin:40px 0">
+      <button class="btn" onclick="openModal('projectModal')">+ Add Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     FREELANCE PORTFOLIO
+     ============================================ -->
+<div id="freelance" class="page">
+  <div class="container">
+    <h2>Client Websites</h2>
+    <p style="text-align:center;color:#aaa;margin-bottom:30px;font-size:16px">Websites I've built for amazing companies</p>
+    
+    <div id="portfolio-list" class="portfolio-grid"></div>
+    
+    <div style="text-align:center;margin:40px 0">
+      <button class="btn" onclick="openModal('portfolioModal')">+ Add Website</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     SERVICES
+     ============================================ -->
+<div id="services" class="page">
+  <div class="container">
+    <h2>Freelance Services</h2>
+    
+    <div style="background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;padding:30px;margin:30px 0;text-align:center">
+      <p style="color:#ccc;font-size:16px;line-height:1.8" id="business-description">
+        Loading...
+      </p>
+      <button class="btn secondary" style="margin-top:15px;font-size:14px" onclick="editBusinessDesc()">Edit Description</button>
+    </div>
+
+    <div id="services-list" class="services-grid"></div>
+    
+    <div style="text-align:center;margin:40px 0">
+      <button class="btn" onclick="openModal('serviceModal')">+ Add Service</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     CURSOS (COURSES)
+     ============================================ -->
+<div id="cursos" class="page">
+  <div class="container">
+    <h2>Courses & Learning</h2>
+    
+    <div style="margin:30px 0;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn secondary" style="font-size:14px" onclick="filterCourses('all')">All</button>
+      <button class="btn secondary" style="font-size:14px" onclick="filterCourses('completed')">Completed</button>
+      <button class="btn secondary" style="font-size:14px" onclick="filterCourses('progress')">In Progress</button>
+      <button class="btn secondary" style="font-size:14px" onclick="filterCourses('queued')">Queued</button>
+    </div>
+
+    <div id="courses-list"></div>
+    
+    <div style="text-align:center;margin:40px 0">
+      <button class="btn" onclick="openModal('courseModal')">+ Add Course</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     DIPLOMAS
+     ============================================ -->
+<div id="diplomas" class="page">
+  <div class="container">
+    <h2>Degrees & Certifications</h2>
+    
+    <div id="diplomas-list"></div>
+    
+    <div style="text-align:center;margin:40px 0">
+      <button class="btn" onclick="openModal('diplomaModal')">+ Add Degree</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     SOBRE MÍ (ABOUT)
+     ============================================ -->
+<div id="sobremi" class="page">
+  <div class="container">
+    <h2>About Me</h2>
+    
+    <div class="about-hero">
+      <div class="about-photo">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwwDAwMFBAMDAwMFBAMDAwUFBQQEBQUGBQYFBQoHBwcGBQoICAgICAgICAgICAj/2wBDAQICAgICAwUDAwUICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgj/wAARCACwALADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9k=" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="about-text">
+        <h3>Hi, I'm a Puerto Rican Developer</h3>
+        <p>I'm passionate about building elegant digital solutions that solve real problems. With a strong foundation in web development, software engineering, and emerging technologies like AI/ML, I create impactful projects that blend creativity with technical excellence.</p>
+        <p>When I'm not coding, you'll find me exploring the beautiful landscapes of Puerto Rico, learning new technologies, or contributing to open-source projects.</p>
+      </div>
+    </div>
+
+    <div class="skills-section">
+      <h3>Technical Skills</h3>
+      <div class="skills-grid">
+        <div class="skill-tag">JavaScript</div>
+        <div class="skill-tag">React</div>
+        <div class="skill-tag">Python</div>
+        <div class="skill-tag">Node.js</div>
+        <div class="skill-tag">SQL</div>
+        <div class="skill-tag">AWS</div>
+        <div class="skill-tag">Docker</div>
+        <div class="skill-tag">Git</div>
+        <div class="skill-tag">TypeScript</div>
+        <div class="skill-tag">MongoDB</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <h3 style="color:#CE1126;margin:30px 0">Experience & Education</h3>
+      <div class="timeline-item">
+        <h4>Senior Developer - Tech Company</h4>
+        <p>2022 - Present | Focused on full-stack web development and architecture</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Full-Stack Developer - Startup</h4>
+        <p>2020 - 2022 | Built MVP and scaled platform to 10k+ users</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Bachelor's in Computer Science</h4>
+        <p>2020 | University of Puerto Rico</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2024 ¡COQUÍ! Software Engineer. All rights reserved. Made with 💚 in Puerto Rico.</p>
+  </div>
+</footer>
+
+<!-- ============================================
+     MODALS
+     ============================================ -->
+
+<!-- PROJECT MODAL -->
+<div id="projectModal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal('projectModal')">×</button>
+    <h3>Add Project</h3>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="projectCategory">
+        <option value="">Select category...</option>
+        <option value="Game Dev">Game Dev</option>
+        <option value="Web Dev">Web Development</option>
+        <option value="Software Dev">Software Dev</option>
+        <option value="AI/ML">AI/ML</option>
+        <option value="Data">Data Analytics</option>
+        <option value="Cloud">Cloud & DevOps</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Project Name</label>
+      <input type="text" id="projectName" placeholder="Enter project name">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="projectDesc" placeholder="Describe your project"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="addProject()">Add Project</button>
+      <button class="btn secondary" onclick="closeModal('projectModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO MODAL -->
+<div id="portfolioModal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal('portfolioModal')">×</button>
+    <h3>Add Website</h3>
+    <div class="form-group">
+      <label>Company Name</label>
+      <input type="text" id="portfolioCompany" placeholder="Enter company name">
+    </div>
+    <div class="form-group">
+      <label>Website URL</label>
+      <input type="url" id="portfolioURL" placeholder="https://example.com">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="portfolioDesc" placeholder="Describe the website and your role"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Screenshot/Image URL</label>
+      <input type="url" id="portfolioImg" placeholder="https://example.com/screenshot.jpg">
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="addPortfolio()">Add Website</button>
+      <button class="btn secondary" onclick="closeModal('portfolioModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICE MODAL -->
+<div id="serviceModal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal('serviceModal')">×</button>
+    <h3>Add Service</h3>
+    <div class="form-group">
+      <label>Service Name</label>
+      <input type="text" id="serviceName" placeholder="e.g., Basic Website">
+    </div>
+    <div class="form-group">
+      <label>Price ($)</label>
+      <input type="number" id="servicePrice" placeholder="e.g., 500" min="0" step="100">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="serviceDesc" placeholder="Describe what's included"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Features (comma-separated)</label>
+      <textarea id="serviceFeatures" placeholder="Feature 1, Feature 2, Feature 3"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="addService()">Add Service</button>
+      <button class="btn secondary" onclick="closeModal('serviceModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- COURSE MODAL -->
+<div id="courseModal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal('courseModal')">×</button>
+    <h3>Add Course</h3>
+    <div class="form-group">
+      <label>Course Name</label>
+      <input type="text" id="courseName" placeholder="Enter course name">
+    </div>
+    <div class="form-group">
+      <label>Platform</label>
+      <input type="text" id="coursePlatform" placeholder="e.g., Udemy">
+    </div>
+    <div class="form-group">
+      <label>Status</label>
+      <select id="courseStatus">
+        <option value="completed">Completed</option>
+        <option value="progress">In Progress</option>
+        <option value="queued">Queued</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Progress (%)</label>
+      <input type="number" id="courseProgress" placeholder="0-100" min="0" max="100" value="100">
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="addCourse()">Add Course</button>
+      <button class="btn secondary" onclick="closeModal('courseModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- DIPLOMA MODAL -->
+<div id="diplomaModal" class="modal">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeModal('diplomaModal')">×</button>
+    <h3>Add Degree</h3>
+    <div class="form-group">
+      <label>Degree Name</label>
+      <input type="text" id="diplomaName" placeholder="e.g., Bachelor's in Computer Science">
+    </div>
+    <div class="form-group">
+      <label>Institution</label>
+      <input type="text" id="diplomaInstitution" placeholder="University/College name">
+    </div>
+    <div class="form-group">
+      <label>Year</label>
+      <input type="number" id="diplomaYear" placeholder="2024" min="2000" max="2099">
+    </div>
+    <div class="form-group">
+      <label>Image URL</label>
+      <input type="url" id="diplomaImg" placeholder="https://example.com/diploma.jpg">
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="addDiploma()">Add Degree</button>
+      <button class="btn secondary" onclick="closeModal('diplomaModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================
+// CONFIG - UPDATE THIS WITH YOUR SERVER URL
+// ============================================
+const API_BASE = 'https://your-render-url.onrender.com/api';  // Replace with your Render URL
+// Example: const API_BASE = 'https://portfolio-api-abc123.onrender.com/api';
+
+// ============================================
+// STATE
+// ============================================
+let projs = [];
+let portfolio = [];
+let services = [];
+let courses = [];
+let degrees = [];
+let businessDesc = 'Loading...';
+let currentFilter = 'all';
+
+// ============================================
+// PAGE NAVIGATION
+// ============================================
+function go(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('active');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+// ============================================
+// API CALLS
+// ============================================
+
+// PROJECTS
+async function addProject() {
+  const cat = document.getElementById('projectCategory').value;
+  const name = document.getElementById('projectName').value;
+  const desc = document.getElementById('projectDesc').value;
+  if (!cat || !name || !desc) {alert('Please fill all fields'); return;}
+  
+  try {
+    const response = await fetch(`${API_BASE}/projects`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({cat, name, desc})
+    });
+    if (response.ok) {
+      loadProjects();
+      closeModal('projectModal');
+      document.getElementById('projectCategory').value = '';
+      document.getElementById('projectName').value = '';
+      document.getElementById('projectDesc').value = '';
+    } else {
+      alert('Error saving project');
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+async function deleteProject(id) {
+  if (!confirm('Delete this project?')) return;
+  try {
+    await fetch(`${API_BASE}/projects/${id}`, {method: 'DELETE'});
+    loadProjects();
+  } catch (err) {
+    alert('Error deleting project');
+  }
+}
+
+async function loadProjects() {
+  try {
+    const response = await fetch(`${API_BASE}/projects`);
+    projs = await response.json();
+    renderProjects();
+  } catch (err) {
+    console.error('Error loading projects:', err);
+  }
+}
+
+// PORTFOLIO
+async function addPortfolio() {
+  const company = document.getElementById('portfolioCompany').value;
+  const url = document.getElementById('portfolioURL').value;
+  const desc = document.getElementById('portfolioDesc').value;
+  const img = document.getElementById('portfolioImg').value;
+  if (!company || !url || !desc) {alert('Please fill all fields'); return;}
+  
+  try {
+    const response = await fetch(`${API_BASE}/portfolio`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({company, url, desc, img})
+    });
+    if (response.ok) {
+      loadPortfolio();
+      closeModal('portfolioModal');
+      document.getElementById('portfolioCompany').value = '';
+      document.getElementById('portfolioURL').value = '';
+      document.getElementById('portfolioDesc').value = '';
+      document.getElementById('portfolioImg').value = '';
+    } else {
+      alert('Error saving portfolio item');
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+async function deletePortfolio(id) {
+  if (!confirm('Delete this website?')) return;
+  try {
+    await fetch(`${API_BASE}/portfolio/${id}`, {method: 'DELETE'});
+    loadPortfolio();
+  } catch (err) {
+    alert('Error deleting portfolio item');
+  }
+}
+
+async function loadPortfolio() {
+  try {
+    const response = await fetch(`${API_BASE}/portfolio`);
+    portfolio = await response.json();
+    renderPortfolio();
+  } catch (err) {
+    console.error('Error loading portfolio:', err);
+  }
+}
+
+// SERVICES
+async function addService() {
+  const name = document.getElementById('serviceName').value;
+  const price = parseInt(document.getElementById('servicePrice').value);
+  const desc = document.getElementById('serviceDesc').value;
+  const featuresStr = document.getElementById('serviceFeatures').value;
+  if (!name || !price || !desc || !featuresStr) {alert('Please fill all fields'); return;}
+  const features = featuresStr.split(',').map(f => f.trim());
+  
+  try {
+    const response = await fetch(`${API_BASE}/services`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, price, desc, features})
+    });
+    if (response.ok) {
+      loadServices();
+      closeModal('serviceModal');
+      document.getElementById('serviceName').value = '';
+      document.getElementById('servicePrice').value = '';
+      document.getElementById('serviceDesc').value = '';
+      document.getElementById('serviceFeatures').value = '';
+    } else {
+      alert('Error saving service');
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+async function deleteService(id) {
+  if (!confirm('Delete this service?')) return;
+  try {
+    await fetch(`${API_BASE}/services/${id}`, {method: 'DELETE'});
+    loadServices();
+  } catch (err) {
+    alert('Error deleting service');
+  }
+}
+
+async function loadServices() {
+  try {
+    const response = await fetch(`${API_BASE}/services`);
+    services = await response.json();
+    renderServices();
+  } catch (err) {
+    console.error('Error loading services:', err);
+  }
+}
+
+// COURSES
+async function addCourse() {
+  const name = document.getElementById('courseName').value;
+  const platform = document.getElementById('coursePlatform').value;
+  const status = document.getElementById('courseStatus').value;
+  const progress = parseInt(document.getElementById('courseProgress').value);
+  if (!name || !platform || !status) {alert('Please fill all fields'); return;}
+  
+  try {
+    const response = await fetch(`${API_BASE}/courses`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, platform, status, progress})
+    });
+    if (response.ok) {
+      loadCourses();
+      closeModal('courseModal');
+      document.getElementById('courseName').value = '';
+      document.getElementById('coursePlatform').value = '';
+      document.getElementById('courseStatus').value = 'completed';
+      document.getElementById('courseProgress').value = '100';
+    } else {
+      alert('Error saving course');
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+async function deleteCourse(id) {
+  if (!confirm('Delete this course?')) return;
+  try {
+    await fetch(`${API_BASE}/courses/${id}`, {method: 'DELETE'});
+    loadCourses();
+  } catch (err) {
+    alert('Error deleting course');
+  }
+}
+
+async function loadCourses() {
+  try {
+    const response = await fetch(`${API_BASE}/courses`);
+    courses = await response.json();
+    renderCourses();
+  } catch (err) {
+    console.error('Error loading courses:', err);
+  }
+}
+
+// DIPLOMAS
+async function addDiploma() {
+  const name = document.getElementById('diplomaName').value;
+  const institution = document.getElementById('diplomaInstitution').value;
+  const year = parseInt(document.getElementById('diplomaYear').value);
+  const img = document.getElementById('diplomaImg').value;
+  if (!name || !institution || !year) {alert('Please fill all fields'); return;}
+  
+  try {
+    const response = await fetch(`${API_BASE}/diplomas`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, institution, year, img})
+    });
+    if (response.ok) {
+      loadDiplomas();
+      closeModal('diplomaModal');
+      document.getElementById('diplomaName').value = '';
+      document.getElementById('diplomaInstitution').value = '';
+      document.getElementById('diplomaYear').value = '';
+      document.getElementById('diplomaImg').value = '';
+    } else {
+      alert('Error saving diploma');
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+async function deleteDiploma(id) {
+  if (!confirm('Delete this degree?')) return;
+  try {
+    await fetch(`${API_BASE}/diplomas/${id}`, {method: 'DELETE'});
+    loadDiplomas();
+  } catch (err) {
+    alert('Error deleting diploma');
+  }
+}
+
+async function loadDiplomas() {
+  try {
+    const response = await fetch(`${API_BASE}/diplomas`);
+    degrees = await response.json();
+    renderDiplomas();
+  } catch (err) {
+    console.error('Error loading diplomas:', err);
+  }
+}
+
+// BUSINESS DESCRIPTION
+async function loadBusinessDesc() {
+  try {
+    const response = await fetch(`${API_BASE}/business-desc`);
+    const data = await response.json();
+    businessDesc = data.description;
+    document.getElementById('business-description').textContent = businessDesc;
+  } catch (err) {
+    console.error('Error loading business description:', err);
+  }
+}
+
+async function editBusinessDesc() {
+  const newDesc = prompt('Edit business description:', businessDesc);
+  if (newDesc !== null && newDesc.trim() !== '') {
+    try {
+      const response = await fetch(`${API_BASE}/business-desc`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({description: newDesc})
+      });
+      if (response.ok) {
+        businessDesc = newDesc;
+        document.getElementById('business-description').textContent = businessDesc;
+      } else {
+        alert('Error saving description');
+      }
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+}
+
+// ============================================
+// RENDER FUNCTIONS
+// ============================================
+
+function renderProjects() {
+  const cats = [...new Set(projs.map(p => p.cat))];
+  let html = '';
+  cats.forEach(cat => {
+    const catProjs = projs.filter(p => p.cat === cat);
+    html += `<div style="margin-bottom:50px"><h3 style="color:#CE1126;margin:30px 0">${cat}</h3><div class="project-grid">`;
+    catProjs.forEach(p => {
+      html += `<div class="project-card">
+        <button class="delete-btn" onclick="deleteProject(${p.id})">×</button>
+        <h4>${p.name}</h4><p>${p.desc}</p></div>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('project-categories').innerHTML = html || '<p style="color:#aaa;text-align:center">No projects yet</p>';
+}
+
+function renderPortfolio() {
+  let html = '';
+  portfolio.forEach(p => {
+    const imgHtml = p.img ? `<img src="${p.img}" alt="${p.company}">` : `<span>No image</span>`;
+    html += `<div class="portfolio-card">
+      <div class="portfolio-img">${imgHtml}</div>
+      <div class="portfolio-info">
+        <h4>${p.company}</h4>
+        <p><strong>URL:</strong> <a href="${p.url}" target="_blank">${p.url}</a></p>
+        <p>${p.desc}</p>
+        <button class="delete-btn" onclick="deletePortfolio(${p.id})" style="position:absolute;bottom:10px;right:10px">×</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('portfolio-list').innerHTML = html || '<p style="color:#aaa;text-align:center;grid-column:1/-1">No websites yet</p>';
+}
+
+function renderServices() {
+  let html = '';
+  services.forEach(s => {
+    html += `<div class="service-card">
+      <h3>${s.name}</h3>
+      <div class="service-price"><span class="currency">$</span>${s.price}</div>
+      <p class="service-desc">${s.desc}</p>
+      <ul class="service-features">
+        ${s.features.map(f => `<li>${f}</li>`).join('')}
+      </ul>
+      <button class="delete-btn" onclick="deleteService(${s.id})">×</button>
+    </div>`;
+  });
+  document.getElementById('services-list').innerHTML = html || '<p style="color:#aaa;text-align:center;grid-column:1/-1">No services yet</p>';
+}
+
+function renderCourses() {
+  let filtered = courses;
+  if (currentFilter !== 'all') {
+    filtered = courses.filter(c => c.status === currentFilter);
+  }
+  let html = '';
+  filtered.forEach(c => {
+    const statusClass = 'status-' + c.status;
+    html += `<div class="course-card">
+      <div class="course-header">
+        <h4 class="course-title">${c.name}</h4>
+        <span class="course-status ${statusClass}">${c.status}</span>
+      </div>
+      <p style="color:#aaa;font-size:13px">${c.platform}</p>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${c.progress}%"></div>
+      </div>
+      <p style="color:#999;font-size:12px;margin-top:5px">${c.progress}% Complete</p>
+      <button class="delete-btn" onclick="deleteCourse(${c.id})">×</button>
+    </div>`;
+  });
+  document.getElementById('courses-list').innerHTML = html || '<p style="color:#aaa;text-align:center">No courses yet</p>';
+}
+
+function filterCourses(filter) {
+  currentFilter = filter;
+  renderCourses();
+}
+
+function renderDiplomas() {
+  let html = '';
+  degrees.forEach(d => {
+    const imgHtml = d.img ? `<img src="${d.img}" alt="${d.name}">` : `<span>Upload image</span>`;
+    html += `<div class="diploma-card">
+      <div class="diploma-img-slot">${imgHtml}</div>
+      <div class="diploma-content">
+        <h3>${d.name}</h3>
+        <p><strong>${d.institution}</strong></p>
+        <p>Graduated: ${d.year}</p>
+      </div>
+      <button class="delete-btn" onclick="deleteDiploma(${d.id})">×</button>
+    </div>`;
+  });
+  document.getElementById('diplomas-list').innerHTML = html || '<p style="color:#aaa;text-align:center">No degrees yet</p>';
+}
+
+// ============================================
+// INIT
+// ============================================
+window.addEventListener('load', async () => {
+  loadProjects();
+  loadPortfolio();
+  loadServices();
+  loadCourses();
+  loadDiplomas();
+  loadBusinessDesc();
+});
+</script>
+
+</body>
+</html>
