@@ -564,10 +564,9 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
 
 <script>
 // ============================================
-// CONFIG - UPDATE THIS WITH YOUR SERVER URL
+// CONFIG - YOUR SERVER URL
 // ============================================
-const API_BASE = 'https://portfolio-api-vbd8.onrender.com/api';  // Replace with your Render URL
-// Example: const API_BASE = 'https://portfolio-api-abc123.onrender.com/api';
+const API_BASE = 'https://portfolio-api-vbd8.onrender.com/api';
 
 // ============================================
 // STATE
@@ -885,6 +884,7 @@ async function editBusinessDesc() {
 // ============================================
 
 function renderProjects() {
+  if (!Array.isArray(projs)) projs = [];
   const cats = [...new Set(projs.map(p => p.cat))];
   let html = '';
   cats.forEach(cat => {
@@ -901,6 +901,7 @@ function renderProjects() {
 }
 
 function renderPortfolio() {
+  if (!Array.isArray(portfolio)) portfolio = [];
   let html = '';
   portfolio.forEach(p => {
     const imgHtml = p.img ? `<img src="${p.img}" alt="${p.company}">` : `<span>No image</span>`;
@@ -918,6 +919,7 @@ function renderPortfolio() {
 }
 
 function renderServices() {
+  if (!Array.isArray(services)) services = [];
   let html = '';
   services.forEach(s => {
     html += `<div class="service-card">
@@ -925,7 +927,7 @@ function renderServices() {
       <div class="service-price"><span class="currency">$</span>${s.price}</div>
       <p class="service-desc">${s.desc}</p>
       <ul class="service-features">
-        ${s.features.map(f => `<li>${f}</li>`).join('')}
+        ${s.features && Array.isArray(s.features) ? s.features.map(f => `<li>${f}</li>`).join('') : ''}
       </ul>
       <button class="delete-btn" onclick="deleteService(${s.id})">×</button>
     </div>`;
@@ -934,6 +936,7 @@ function renderServices() {
 }
 
 function renderCourses() {
+  if (!Array.isArray(courses)) courses = [];
   let filtered = courses;
   if (currentFilter !== 'all') {
     filtered = courses.filter(c => c.status === currentFilter);
@@ -963,6 +966,7 @@ function filterCourses(filter) {
 }
 
 function renderDiplomas() {
+  if (!Array.isArray(degrees)) degrees = [];
   let html = '';
   degrees.forEach(d => {
     const imgHtml = d.img ? `<img src="${d.img}" alt="${d.name}">` : `<span>Upload image</span>`;
