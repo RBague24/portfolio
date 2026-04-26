@@ -8,19 +8,9 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:5000',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:5000',
-    'file://',
-    /\.onrender\.com$/,
-    /\.netlify\.app$/,
-    /\.github\.io$/,
-    'https://localhost:3000',
-    'https://localhost:5000'
-  ],
-  credentials: true
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type']
 }));
 app.use(express.json());
 
