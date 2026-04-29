@@ -279,7 +279,7 @@
     <div class="landing-container">
       <div class="welcome-section">
         <h1>Welcome! 👋</h1>
-        <p>Explore my work and/or hire my services!</p>
+        <p>Explore my work and/or hire my services</p>
       </div>
 
       <div class="button-group">
@@ -306,8 +306,84 @@
   </div>
 
   <script>
-    // Password (hashed for security - in real app use backend)
-    const CORRECT_PASSWORD = 'JennaJen24/7!!!';
+    // Backend API URL
+    const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';
+
+    // Login functions
+    function openLogin() {
+      document.getElementById('loginModal').classList.add('active');
+      document.getElementById('passwordInput').focus();
+    }
+
+    function closeLogin() {
+      document.getElementById('loginModal').classList.remove('active');
+      document.getElementById('loginError').style.display = 'none';
+      document.getElementById('passwordInput').value = '';
+    }
+
+    async function login() {
+      const password = document.getElementById('passwordInput').value;
+      
+      if (!password) {
+        document.getElementById('loginError').textContent = '❌ Please enter a password';
+        document.getElementById('loginError').style.display = 'block';
+        return;
+      }
+
+      try {
+        // Call backend to verify password
+        const response = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // Password is correct - store auth token
+          localStorage.setItem('portfolioAuth', 'true');
+          localStorage.setItem('loginTime', Date.now());
+          
+          // Redirect to portfolio
+          window.location.href = 'index.html';
+        } else {
+          // Wrong password
+          document.getElementById('loginError').textContent = '❌ Incorrect password';
+          document.getElementById('loginError').style.display = 'block';
+          document.getElementById('passwordInput').value = '';
+          document.getElementById('passwordInput').focus();
+        }
+      } catch (err) {
+        document.getElementById('loginError').textContent = '❌ Connection error. Try again.';
+        document.getElementById('loginError').style.display = 'block';
+        console.error('Login error:', err);
+      }
+    }
+
+    function goToPortfolio() {
+      // Go to portfolio without login
+      window.location.href = 'portfolio-frontend.html';
+    }
+
+    // Check if user is logged in (on page load)
+    window.addEventListener('load', function() {
+      const isAuth = localStorage.getItem('portfolioAuth');
+      const loginTime = localStorage.getItem('loginTime');
+      
+      // Session expires after 24 hours
+      if (isAuth && loginTime) {
+        const elapsed = Date.now() - parseInt(loginTime);
+        const dayInMs = 24 * 60 * 60 * 1000;
+        
+        if (elapsed > dayInMs) {
+          localStorage.removeItem('portfolioAuth');
+          localStorage.removeItem('loginTime');
+        }
+      }
+    });
 
     // Floating items with emojis (visual representations)
     const items = [
@@ -350,58 +426,6 @@
         background.appendChild(item);
       }
     }
-
-    // Login functions
-    function openLogin() {
-      document.getElementById('loginModal').classList.add('active');
-      document.getElementById('passwordInput').focus();
-    }
-
-    function closeLogin() {
-      document.getElementById('loginModal').classList.remove('active');
-      document.getElementById('loginError').style.display = 'none';
-      document.getElementById('passwordInput').value = '';
-    }
-
-    function login() {
-      const password = document.getElementById('passwordInput').value;
-      
-      if (password === CORRECT_PASSWORD) {
-        // Store login state
-        localStorage.setItem('portfolioAuth', 'true');
-        localStorage.setItem('loginTime', Date.now());
-        
-        // Redirect to portfolio
-        window.location.href = 'index.html';
-      } else {
-        document.getElementById('loginError').textContent = '❌ Incorrect password';
-        document.getElementById('loginError').style.display = 'block';
-        document.getElementById('passwordInput').value = '';
-        document.getElementById('passwordInput').focus();
-      }
-    }
-
-    function goToPortfolio() {
-      // Go to portfolio without login
-      window.location.href = 'index.html';
-    }
-
-    // Check if user is logged in (on page load)
-    window.addEventListener('load', function() {
-      const isAuth = localStorage.getItem('portfolioAuth');
-      const loginTime = localStorage.getItem('loginTime');
-      
-      // Session expires after 24 hours
-      if (isAuth && loginTime) {
-        const elapsed = Date.now() - parseInt(loginTime);
-        const dayInMs = 24 * 60 * 60 * 1000;
-        
-        if (elapsed > dayInMs) {
-          localStorage.removeItem('portfolioAuth');
-          localStorage.removeItem('loginTime');
-        }
-      }
-    });
 
     // Initialize floating items when page loads
     window.addEventListener('load', createFloatingItems);
