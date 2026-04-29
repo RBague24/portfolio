@@ -590,8 +590,14 @@ let currentFilter = 'all';
 // PAGE NAVIGATION
 // ============================================
 function go(page) {
+  // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
+  // Show selected page
+  const pageElement = document.getElementById(page);
+  if (pageElement) {
+    pageElement.classList.add('active');
+  }
+  // Update active button
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
   window.scrollTo(0, 0);
