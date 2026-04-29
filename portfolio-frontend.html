@@ -986,6 +986,21 @@ function renderDiplomas() {
 }
 
 // ============================================
+// INIT
+// ============================================
+window.addEventListener('load', async () => {
+  loadProjects();
+  loadPortfolio();
+  loadServices();
+  loadCourses();
+  loadDiplomas();
+  loadBusinessDesc();
+  
+  // Check authentication and show logout button if logged in
+  checkAuth();
+});
+
+// ============================================
 // AUTHENTICATION
 // ============================================
 function checkAuth() {
@@ -1065,22 +1080,6 @@ function logout() {
   localStorage.removeItem('loginTime');
   window.location.href = 'landing.html';
 }
-
-// ============================================
-// INIT
-// ============================================
-window.addEventListener('load', async () => {
-  loadProjects();
-  loadPortfolio();
-  loadServices();
-  loadCourses();
-  loadDiplomas();
-  loadBusinessDesc();
-  
-  // Check authentication and show logout button if logged in
-  checkAuth();
-});
-</script>
 
 </body>
 </html>
