@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - Raphy's Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100vh;
+    }
+
+    /* Animated Background */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .floating-item {
+      position: absolute;
+      font-size: 3rem;
+      opacity: 0.6;
+      animation: float linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Content Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Landing Page Container */
+    .landing-container {
+      text-align: center;
+      z-index: 3;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-section {
+      margin-bottom: 60px;
+    }
+
+    .welcome-section h1 {
+      font-size: 4rem;
+      color: white;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      font-weight: 700;
+    }
+
+    .welcome-section p {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Login Modal */
+    .login-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-modal.active {
+      display: flex;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: popIn 0.3s ease-out;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .login-box h2 {
+      color: #667eea;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .login-box input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #5568d3;
+    }
+
+    .login-error {
+      color: #ff6b6b;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .login-close {
+      color: #999;
+      font-size: 1.5rem;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .login-close:hover {
+      color: #333;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 15px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      min-width: 200px;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #667eea;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      background: #f8f9ff;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-3px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .welcome-section h1 {
+        font-size: 2.5rem;
+      }
+
+      .welcome-section p {
+        font-size: 1rem;
+      }
+
+      .button-group {
+        gap: 15px;
+      }
+
+      .btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+        min-width: 150px;
+      }
+
+      .login-box {
+        width: 90%;
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="background" id="background"></div>
+
+  <!-- Content Overlay -->
+  <div class="overlay">
+    <div class="landing-container">
+      <div class="welcome-section">
+        <h1>Welcome! 👋</h1>
+        <p>Explore my work or log in to edit your portfolio</p>
+      </div>
+
+      <div class="button-group">
+        <a href="#portfolio" class="btn btn-primary" onclick="goToPortfolio()">View Portfolio</a>
+        <button class="btn btn-secondary" onclick="openLogin()">Admin Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="login-modal" id="loginModal">
+    <div class="login-box">
+      <span class="login-close" onclick="closeLogin()">&times;</span>
+      <h2>Admin Login</h2>
+      <div class="login-error" id="loginError" style="display: none;"></div>
+      <input 
+        type="password" 
+        id="passwordInput" 
+        placeholder="Enter password" 
+        onkeypress="if(event.key === 'Enter') login()"
+      >
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+
+  <script>
+    // Password (hashed for security - in real app use backend)
+    const CORRECT_PASSWORD = 'JennaJen24/7!!!';
+
+    // Floating items with emojis (visual representations)
+    const items = [
+      '🔥',  // Torchic
+      '🐉',  // Charmander
+      '⚡',  // Pikachu
+      '🏔️',  // Skyrim
+      '💍',  // Elden Ring
+      '🎮',  // Halo 3
+      '⚙️',  // Gears of War
+      '🏳️‍⚫', // Black Lives Matter
+    ];
+
+    // Create floating items in background
+    function createFloatingItems() {
+      const background = document.getElementById('background');
+      
+      // Create multiple floating items
+      for (let i = 0; i < 15; i++) {
+        const item = document.createElement('div');
+        item.className = 'floating-item';
+        item.textContent = items[i % items.length];
+        
+        // Random horizontal position
+        const randomLeft = Math.random() * 100;
+        item.style.left = randomLeft + '%';
+        
+        // Random animation duration (8-15 seconds)
+        const duration = 8 + Math.random() * 7;
+        item.style.animationDuration = duration + 's';
+        
+        // Random delay to stagger animations
+        const delay = Math.random() * 5;
+        item.style.animationDelay = delay + 's';
+        
+        // Random size variation
+        const size = 2 + Math.random() * 2;
+        item.style.fontSize = size + 'rem';
+        
+        background.appendChild(item);
+      }
+    }
+
+    // Login functions
+    function openLogin() {
+      document.getElementById('loginModal').classList.add('active');
+      document.getElementById('passwordInput').focus();
+    }
+
+    function closeLogin() {
+      document.getElementById('loginModal').classList.remove('active');
+      document.getElementById('loginError').style.display = 'none';
+      document.getElementById('passwordInput').value = '';
+    }
+
+    function login() {
+      const password = document.getElementById('passwordInput').value;
+      
+      if (password === CORRECT_PASSWORD) {
+        // Store login state
+        localStorage.setItem('portfolioAuth', 'true');
+        localStorage.setItem('loginTime', Date.now());
+        
+        // Redirect to portfolio
+        window.location.href = 'index.html';
+      } else {
+        document.getElementById('loginError').textContent = '❌ Incorrect password';
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('passwordInput').value = '';
+        document.getElementById('passwordInput').focus();
+      }
+    }
+
+    function goToPortfolio() {
+      // Go to portfolio without login
+      window.location.href = 'index.html';
+    }
+
+    // Check if user is logged in (on page load)
+    window.addEventListener('load', function() {
+      const isAuth = localStorage.getItem('portfolioAuth');
+      const loginTime = localStorage.getItem('loginTime');
+      
+      // Session expires after 24 hours
+      if (isAuth && loginTime) {
+        const elapsed = Date.now() - parseInt(loginTime);
+        const dayInMs = 24 * 60 * 60 * 1000;
+        
+        if (elapsed > dayInMs) {
+          localStorage.removeItem('portfolioAuth');
+          localStorage.removeItem('loginTime');
+        }
+      }
+    });
+
+    // Initialize floating items when page loads
+    window.addEventListener('load', createFloatingItems);
+
+    // Close modal when clicking outside of it
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLogin();
+      }
+    });
+  </script>
+</body>
+</html>
