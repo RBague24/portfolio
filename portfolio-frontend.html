@@ -182,8 +182,8 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
       <nav>
         <button class="nav-btn active" onclick="go('inicio')">Home</button>
         <button class="nav-btn" onclick="go('proyectos')">Projects</button>
-        <button class="nav-btn" onclick="go('freelance')">Advertising</button>
-        <button class="nav-btn" onclick="go('services')">Services</button>
+        <button class="nav-btn" onclick="go('freelance')">Sample Work</button>
+        <button class="nav-btn" onclick="go('services')">Freelance Services</button>
         <button class="nav-btn" onclick="go('cursos')">Courses</button>
         <button class="nav-btn" onclick="go('diplomas')">Diplomas</button>
         <button class="nav-btn" onclick="go('sobremi')">About Me</button>
@@ -204,11 +204,11 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
       
       <div class="stats">
         <div class="stat">
-          <div class="stat-num" id="stat-projects">7</div>
+          <div class="stat-num" id="stat-projects">0</div>
           <div class="stat-label">Projects Complete</div>
         </div>
         <div class="stat">
-          <div class="stat-num" id="stat-clients">2</div>
+          <div class="stat-num" id="stat-clients">0</div>
           <div class="stat-label">Happy Clients</div>
         </div>
         <div class="stat">
@@ -366,7 +366,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
       <div class="about-text">
         <h3>Hi, I'm a Puerto Rican Developer</h3>
         <p>I'm passionate about building elegant digital solutions that solve real problems. With a strong foundation in web development, software engineering, and emerging technologies like AI/ML, I create impactful projects that blend creativity with technical excellence.</p>
-        <p>When I'm not coding, you'll find me watching anime, playing video games, or hanging out with my fiancée.</p>
+        <p>When I'm not coding, you'll find me exploring the beautiful landscapes of Puerto Rico, learning new technologies, or contributing to open-source projects.</p>
       </div>
     </div>
 
@@ -383,7 +383,6 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
         <div class="skill-tag">Git</div>
         <div class="skill-tag">TypeScript</div>
         <div class="skill-tag">MongoDB</div>
-        <div class="skill-tag">Game Development</div>
       </div>
     </div>
 
@@ -399,7 +398,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
       </div>
       <div class="timeline-item">
         <h4>Bachelor's in Computer Science</h4>
-        <p>2026 | Western Governors University</p>
+        <p>2020 | University of Puerto Rico</p>
       </div>
     </div>
   </div>
@@ -407,7 +406,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
 
 <footer>
   <div class="container">
-    <p>&copy; 2026 Raphy Bagué Muñiz Software Engineer. All rights reserved.</p>
+    <p>&copy; 2026 Raphy Bagué Muñiz - Software Engineer. All rights reserved.</p>
   </div>
 </footer>
 
@@ -565,9 +564,10 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
 
 <script>
 // ============================================
-// CONFIG - YOUR SERVER URL
+// CONFIG - UPDATE THIS WITH YOUR SERVER URL
 // ============================================
-const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';
+const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';  // Replace with your Render URL
+// Example: const API_BASE = 'https://portfolio-api-abc123.onrender.com/api';
 
 // ============================================
 // STATE
@@ -885,7 +885,6 @@ async function editBusinessDesc() {
 // ============================================
 
 function renderProjects() {
-  if (!Array.isArray(projs)) projs = [];
   const cats = [...new Set(projs.map(p => p.cat))];
   let html = '';
   cats.forEach(cat => {
@@ -902,7 +901,6 @@ function renderProjects() {
 }
 
 function renderPortfolio() {
-  if (!Array.isArray(portfolio)) portfolio = [];
   let html = '';
   portfolio.forEach(p => {
     const imgHtml = p.img ? `<img src="${p.img}" alt="${p.company}">` : `<span>No image</span>`;
@@ -920,7 +918,6 @@ function renderPortfolio() {
 }
 
 function renderServices() {
-  if (!Array.isArray(services)) services = [];
   let html = '';
   services.forEach(s => {
     html += `<div class="service-card">
@@ -928,7 +925,7 @@ function renderServices() {
       <div class="service-price"><span class="currency">$</span>${s.price}</div>
       <p class="service-desc">${s.desc}</p>
       <ul class="service-features">
-        ${s.features && Array.isArray(s.features) ? s.features.map(f => `<li>${f}</li>`).join('') : ''}
+        ${s.features.map(f => `<li>${f}</li>`).join('')}
       </ul>
       <button class="delete-btn" onclick="deleteService(${s.id})">×</button>
     </div>`;
@@ -937,7 +934,6 @@ function renderServices() {
 }
 
 function renderCourses() {
-  if (!Array.isArray(courses)) courses = [];
   let filtered = courses;
   if (currentFilter !== 'all') {
     filtered = courses.filter(c => c.status === currentFilter);
@@ -967,7 +963,6 @@ function filterCourses(filter) {
 }
 
 function renderDiplomas() {
-  if (!Array.isArray(degrees)) degrees = [];
   let html = '';
   degrees.forEach(d => {
     const imgHtml = d.img ? `<img src="${d.img}" alt="${d.name}">` : `<span>Upload image</span>`;
@@ -985,6 +980,58 @@ function renderDiplomas() {
 }
 
 // ============================================
+// AUTHENTICATION
+// ============================================
+function checkAuth() {
+  const isAuth = localStorage.getItem('portfolioAuth');
+  const loginTime = localStorage.getItem('loginTime');
+  
+  if (isAuth && loginTime) {
+    const elapsed = Date.now() - parseInt(loginTime);
+    const dayInMs = 24 * 60 * 60 * 1000;
+    
+    if (elapsed > dayInMs) {
+      // Session expired
+      localStorage.removeItem('portfolioAuth');
+      localStorage.removeItem('loginTime');
+      hideLogoutButton();
+    } else {
+      // User is logged in
+      showLogoutButton();
+    }
+  } else {
+    hideLogoutButton();
+  }
+}
+
+function showLogoutButton() {
+  const nav = document.querySelector('nav');
+  if (!document.getElementById('logoutBtn')) {
+    const logoutBtn = document.createElement('button');
+    logoutBtn.id = 'logoutBtn';
+    logoutBtn.textContent = 'Logout';
+    logoutBtn.style.color = '#CE1126';
+    logoutBtn.style.borderBottom = '2px solid #CE1126';
+    logoutBtn.style.paddingBottom = '5px';
+    logoutBtn.onclick = logout;
+    nav.appendChild(logoutBtn);
+  }
+}
+
+function hideLogoutButton() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.remove();
+  }
+}
+
+function logout() {
+  localStorage.removeItem('portfolioAuth');
+  localStorage.removeItem('loginTime');
+  window.location.href = 'landing.html';
+}
+
+// ============================================
 // INIT
 // ============================================
 window.addEventListener('load', async () => {
@@ -994,6 +1041,9 @@ window.addEventListener('load', async () => {
   loadCourses();
   loadDiplomas();
   loadBusinessDesc();
+  
+  // Check authentication and show logout button if logged in
+  checkAuth();
 });
 </script>
 
