@@ -67,6 +67,12 @@ h2{font-family:'Playfair Display',serif;font-size:42px;margin:40px 0 30px;color:
 .delete-btn{position:absolute;top:10px;right:10px;background:#CE1126;border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
 .delete-btn:hover{background:#a00}
 
+/* Admin-only elements */
+.admin-only{display:none}
+.admin-only.visible{display:inline-block}
+.delete-btn{display:none}
+.delete-btn.visible{display:flex}
+
 /* ============================================
    FREELANCE PORTFOLIO GRID
    ============================================ */
@@ -272,7 +278,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
     <div id="project-categories" style="margin-top:40px"></div>
     
     <div style="text-align:center;margin:40px 0">
-      <button class="btn" onclick="openModal('projectModal')">+ Add Project</button>
+      <button class="btn admin-only" onclick="openModal('projectModal')">+ Add Project</button>
     </div>
   </div>
 </div>
@@ -288,7 +294,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
     <div id="portfolio-list" class="portfolio-grid"></div>
     
     <div style="text-align:center;margin:40px 0">
-      <button class="btn" onclick="openModal('portfolioModal')">+ Add Website</button>
+      <button class="btn admin-only" onclick="openModal('portfolioModal')">+ Add Website</button>
     </div>
   </div>
 </div>
@@ -310,7 +316,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
     <div id="services-list" class="services-grid"></div>
     
     <div style="text-align:center;margin:40px 0">
-      <button class="btn" onclick="openModal('serviceModal')">+ Add Service</button>
+      <button class="btn admin-only" onclick="openModal('serviceModal')">+ Add Service</button>
     </div>
   </div>
 </div>
@@ -332,7 +338,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
     <div id="courses-list"></div>
     
     <div style="text-align:center;margin:40px 0">
-      <button class="btn" onclick="openModal('courseModal')">+ Add Course</button>
+      <button class="btn admin-only" onclick="openModal('courseModal')">+ Add Course</button>
     </div>
   </div>
 </div>
@@ -347,7 +353,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
     <div id="diplomas-list"></div>
     
     <div style="text-align:center;margin:40px 0">
-      <button class="btn" onclick="openModal('diplomaModal')">+ Add Degree</button>
+      <button class="btn admin-only" onclick="openModal('diplomaModal')">+ Add Degree</button>
     </div>
   </div>
 </div>
@@ -566,7 +572,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
 // ============================================
 // CONFIG - UPDATE THIS WITH YOUR SERVER URL
 // ============================================
-const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';  // Replace with your Render URL
+const API_BASE = 'https://portfolio-backend-kr7d.onrender.com';  // Replace with your Render URL
 // Example: const API_BASE = 'https://portfolio-api-abc123.onrender.com/api';
 
 // ============================================
@@ -985,6 +991,7 @@ function renderDiplomas() {
 function checkAuth() {
   const isAuth = localStorage.getItem('portfolioAuth');
   const loginTime = localStorage.getItem('loginTime');
+  let isLoggedIn = false;
   
   if (isAuth && loginTime) {
     const elapsed = Date.now() - parseInt(loginTime);
@@ -995,13 +1002,41 @@ function checkAuth() {
       localStorage.removeItem('portfolioAuth');
       localStorage.removeItem('loginTime');
       hideLogoutButton();
+      isLoggedIn = false;
     } else {
       // User is logged in
       showLogoutButton();
+      isLoggedIn = true;
     }
   } else {
     hideLogoutButton();
+    isLoggedIn = false;
   }
+  
+  // Show/hide admin-only elements
+  toggleAdminElements(isLoggedIn);
+}
+
+function toggleAdminElements(isAdmin) {
+  // Toggle add buttons
+  const adminButtons = document.querySelectorAll('.admin-only');
+  adminButtons.forEach(btn => {
+    if (isAdmin) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+  
+  // Toggle delete buttons
+  const deleteButtons = document.querySelectorAll('.delete-btn');
+  deleteButtons.forEach(btn => {
+    if (isAdmin) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
 }
 
 function showLogoutButton() {
