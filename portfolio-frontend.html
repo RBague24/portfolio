@@ -186,13 +186,13 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
     <div class="header-content">
       <div class="logo">Raphy Bagué Muñiz</div>
       <nav>
-        <button class="nav-btn active" onclick="go('inicio')">Home</button>
-        <button class="nav-btn" onclick="go('proyectos')">Projects</button>
-        <button class="nav-btn" onclick="go('freelance')">Sample Work</button>
-        <button class="nav-btn" onclick="go('services')">Freelance Services</button>
-        <button class="nav-btn" onclick="go('cursos')">Courses</button>
-        <button class="nav-btn" onclick="go('diplomas')">Diplomas</button>
-        <button class="nav-btn" onclick="go('sobremi')">About Me</button>
+        <button class="nav-btn active" onclick="go('inicio', this)">Home</button>
+        <button class="nav-btn" onclick="go('proyectos', this)">Projects</button>
+        <button class="nav-btn" onclick="go('freelance', this)">Sample Work</button>
+        <button class="nav-btn" onclick="go('services', this)">Freelance Services</button>
+        <button class="nav-btn" onclick="go('cursos', this)">Courses</button>
+        <button class="nav-btn" onclick="go('diplomas', this)">Diplomas</button>
+        <button class="nav-btn" onclick="go('sobremi', this)">About Me</button>
       </nav>
     </div>
   </div>
@@ -224,8 +224,8 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
       </div>
 
       <div class="cta-buttons">
-        <button class="btn" onclick="go('freelance')">View Freelance Work</button>
-        <button class="btn secondary" onclick="go('sobremi')">Learn More</button>
+        <button class="btn" onclick="go('freelance', this)">View Freelance Work</button>
+        <button class="btn secondary" onclick="go('sobremi', this)">Learn More</button>
       </div>
     </div>
   </div>
@@ -234,32 +234,32 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
     <h2>Featured Work</h2>
     <p style="text-align:center;color:#aaa;margin-bottom:40px;font-size:16px">Explore my recent projects across different domains</p>
     <div class="grid">
-      <div class="area-card" onclick="go('proyectos')">
+      <div class="area-card" onclick="go('proyectos', this)">
         <div style="font-size:32px;margin:15px 0">🎮</div>
         <h3>Game Dev</h3>
         <p>Interactive gaming experiences with engaging mechanics</p>
       </div>
-      <div class="area-card" onclick="go('proyectos')">
+      <div class="area-card" onclick="go('proyectos', this)">
         <div style="font-size:32px;margin:15px 0">🌐</div>
         <h3>Web Development</h3>
         <p>Modern responsive websites and web applications</p>
       </div>
-      <div class="area-card" onclick="go('proyectos')">
+      <div class="area-card" onclick="go('proyectos', this)">
         <div style="font-size:32px;margin:15px 0">⚙️</div>
         <h3>Software Dev</h3>
         <p>Desktop and backend systems with clean architecture</p>
       </div>
-      <div class="area-card" onclick="go('proyectos')">
+      <div class="area-card" onclick="go('proyectos', this)">
         <div style="font-size:32px;margin:15px 0">🤖</div>
         <h3>AI/ML</h3>
         <p>Machine learning models and intelligent systems</p>
       </div>
-      <div class="area-card" onclick="go('proyectos')">
+      <div class="area-card" onclick="go('proyectos', this)">
         <div style="font-size:32px;margin:15px 0">📊</div>
         <h3>Data Analytics</h3>
         <p>Data processing and insightful visualizations</p>
       </div>
-      <div class="area-card" onclick="go('proyectos')">
+      <div class="area-card" onclick="go('proyectos', this)">
         <div style="font-size:32px;margin:15px 0">☁️</div>
         <h3>Cloud & DevOps</h3>
         <p>Scalable cloud infrastructure and deployment</p>
@@ -589,7 +589,7 @@ let currentFilter = 'all';
 // ============================================
 // PAGE NAVIGATION
 // ============================================
-function go(page) {
+function go(page, button) {
   // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   // Show selected page
@@ -599,7 +599,9 @@ function go(page) {
   }
   // Update active button
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  if (button) {
+    button.classList.add('active');
+  }
   window.scrollTo(0, 0);
 }
 
