@@ -210,11 +210,11 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
       
       <div class="stats">
         <div class="stat">
-          <div class="stat-num" id="stat-projects">0</div>
+          <div class="stat-num" id="stat-projects">3</div>
           <div class="stat-label">Projects Complete</div>
         </div>
         <div class="stat">
-          <div class="stat-num" id="stat-clients">0</div>
+          <div class="stat-num" id="stat-clients">2</div>
           <div class="stat-label">Happy Clients</div>
         </div>
         <div class="stat">
@@ -310,7 +310,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
       <p style="color:#ccc;font-size:16px;line-height:1.8" id="business-description">
         Loading...
       </p>
-      <button class="btn secondary" style="margin-top:15px;font-size:14px" onclick="editBusinessDesc()">Edit Description</button>
+      <button class="btn secondary admin-only" style="margin-top:15px;font-size:14px" onclick="editBusinessDesc()">Edit Description</button>
     </div>
 
     <div id="services-list" class="services-grid"></div>
@@ -572,8 +572,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
 // ============================================
 // CONFIG - UPDATE THIS WITH YOUR SERVER URL
 // ============================================
-const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';  // Replace with your Render URL
-// Example: const API_BASE = 'https://portfolio-api-abc123.onrender.com/api';
+const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';
 
 // ============================================
 // STATE
