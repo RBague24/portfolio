@@ -702,6 +702,57 @@ async function deletePortfolio(id) {
   }
 }
 
+function editPortfolio(id) {
+  const item = portfolio.find(p => p.id === id);
+  if (!item) return;
+  
+  document.getElementById('portfolioCompany').value = item.company;
+  document.getElementById('portfolioURL').value = item.url;
+  document.getElementById('portfolioDesc').value = item.desc;
+  document.getElementById('portfolioImg').value = item.img || '';
+  
+  const modal = document.getElementById('portfolioModal');
+  modal.querySelector('h3').textContent = 'Edit Website';
+  const addBtn = modal.querySelector('.btn');
+  addBtn.textContent = 'Update Website';
+  addBtn.onclick = () => updatePortfolio(id);
+  
+  openModal('portfolioModal');
+}
+
+async function updatePortfolio(id) {
+  const company = document.getElementById('portfolioCompany').value;
+  const url = document.getElementById('portfolioURL').value;
+  const desc = document.getElementById('portfolioDesc').value;
+  const img = document.getElementById('portfolioImg').value;
+  if (!company || !url || !desc) {alert('Please fill all fields'); return;}
+  
+  try {
+    const response = await fetch(`${API_BASE}/portfolio/${id}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({company, url, desc, img})
+    });
+    if (response.ok) {
+      loadPortfolio();
+      closeModal('portfolioModal');
+      document.getElementById('portfolioCompany').value = '';
+      document.getElementById('portfolioURL').value = '';
+      document.getElementById('portfolioDesc').value = '';
+      document.getElementById('portfolioImg').value = '';
+      // Reset button back to Add
+      const modal = document.getElementById('portfolioModal');
+      modal.querySelector('h3').textContent = 'Add Website';
+      modal.querySelector('.btn').textContent = 'Add Website';
+      modal.querySelector('.btn').onclick = addPortfolio;
+    } else {
+      alert('Error updating portfolio item');
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
 async function loadPortfolio() {
   try {
     const response = await fetch(`${API_BASE}/portfolio`);
@@ -924,6 +975,7 @@ function renderPortfolio() {
         <p><strong>URL:</strong> <a href="${p.url}" target="_blank">${p.url}</a></p>
         <p>${p.desc}</p>
         <button class="delete-btn" onclick="deletePortfolio(${p.id})" style="position:absolute;bottom:10px;right:10px">×</button>
+        <button class="delete-btn admin-only" onclick="editPortfolio(${p.id})" style="position:absolute;bottom:10px;right:50px;background:#667eea">✎</button>
       </div>
     </div>`;
   });
