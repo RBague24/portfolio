@@ -1055,19 +1055,193 @@ function renderDiplomas() {
 }
 
 // ============================================
+// AUTOMATIC DATABASE CONNECTION WITH RETRY LOGIC
+// ============================================
+
+// Check if backend is ready before loading data
+async function checkBackendReady() {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    try {
+      const response = await fetch(`${API_BASE.replace('/api', '')}/api/health`);
+      if (response.ok) {
+        console.log('✅ Backend is ready!');
+        return true;
+      }
+    } catch (err) {
+      console.log(`⏳ Waiting for backend... (attempt ${attempts + 1}/${maxAttempts})`);
+    }
+    
+    // Wait 1 second before retrying
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    attempts++;
+  }
+  
+  console.error('❌ Backend not responding after max attempts');
+  return false;
+}
+
+// Load all data with automatic retry
+async function loadAllData() {
+  const backendReady = await checkBackendReady();
+  
+  if (!backendReady) {
+    console.error('Backend is not ready. Please check your connection.');
+    alert('⚠️ Cannot connect to database. Please refresh the page in a moment.');
+    return;
+  }
+  
+  // All load functions with retry logic
+  await loadProjectsWithRetry();
+  await loadPortfolioWithRetry();
+  await loadServicesWithRetry();
+  await loadCoursesWithRetry();
+  await loadDiplomasWithRetry();
+  await loadBusinessDescWithRetry();
+  
+  // Check authentication
+  checkAuth();
+}
+
+// Load functions with retry logic
+async function loadProjectsWithRetry(attempts = 0, maxAttempts = 3) {
+  try {
+    const response = await fetch(`${API_BASE}/projects`);
+    if (response.ok) {
+      projs = await response.json();
+      renderProjects();
+      console.log('✅ Projects loaded');
+    } else {
+      throw new Error('Failed to load projects');
+    }
+  } catch (err) {
+    if (attempts < maxAttempts) {
+      console.log(`🔄 Retrying projects... (${attempts + 1}/${maxAttempts})`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return loadProjectsWithRetry(attempts + 1, maxAttempts);
+    }
+    console.error('❌ Error loading projects:', err);
+    projs = [];
+    renderProjects();
+  }
+}
+
+async function loadPortfolioWithRetry(attempts = 0, maxAttempts = 3) {
+  try {
+    const response = await fetch(`${API_BASE}/portfolio`);
+    if (response.ok) {
+      portfolio = await response.json();
+      renderPortfolio();
+      console.log('✅ Portfolio loaded');
+    } else {
+      throw new Error('Failed to load portfolio');
+    }
+  } catch (err) {
+    if (attempts < maxAttempts) {
+      console.log(`🔄 Retrying portfolio... (${attempts + 1}/${maxAttempts})`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return loadPortfolioWithRetry(attempts + 1, maxAttempts);
+    }
+    console.error('❌ Error loading portfolio:', err);
+    portfolio = [];
+    renderPortfolio();
+  }
+}
+
+async function loadServicesWithRetry(attempts = 0, maxAttempts = 3) {
+  try {
+    const response = await fetch(`${API_BASE}/services`);
+    if (response.ok) {
+      services = await response.json();
+      renderServices();
+      console.log('✅ Services loaded');
+    } else {
+      throw new Error('Failed to load services');
+    }
+  } catch (err) {
+    if (attempts < maxAttempts) {
+      console.log(`🔄 Retrying services... (${attempts + 1}/${maxAttempts})`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return loadServicesWithRetry(attempts + 1, maxAttempts);
+    }
+    console.error('❌ Error loading services:', err);
+    services = [];
+    renderServices();
+  }
+}
+
+async function loadCoursesWithRetry(attempts = 0, maxAttempts = 3) {
+  try {
+    const response = await fetch(`${API_BASE}/courses`);
+    if (response.ok) {
+      courses = await response.json();
+      renderCourses();
+      console.log('✅ Courses loaded');
+    } else {
+      throw new Error('Failed to load courses');
+    }
+  } catch (err) {
+    if (attempts < maxAttempts) {
+      console.log(`🔄 Retrying courses... (${attempts + 1}/${maxAttempts})`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return loadCoursesWithRetry(attempts + 1, maxAttempts);
+    }
+    console.error('❌ Error loading courses:', err);
+    courses = [];
+    renderCourses();
+  }
+}
+
+async function loadDiplomasWithRetry(attempts = 0, maxAttempts = 3) {
+  try {
+    const response = await fetch(`${API_BASE}/diplomas`);
+    if (response.ok) {
+      degrees = await response.json();
+      renderDiplomas();
+      console.log('✅ Diplomas loaded');
+    } else {
+      throw new Error('Failed to load diplomas');
+    }
+  } catch (err) {
+    if (attempts < maxAttempts) {
+      console.log(`🔄 Retrying diplomas... (${attempts + 1}/${maxAttempts})`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return loadDiplomasWithRetry(attempts + 1, maxAttempts);
+    }
+    console.error('❌ Error loading diplomas:', err);
+    degrees = [];
+    renderDiplomas();
+  }
+}
+
+async function loadBusinessDescWithRetry(attempts = 0, maxAttempts = 3) {
+  try {
+    const response = await fetch(`${API_BASE}/business-desc`);
+    if (response.ok) {
+      const data = await response.json();
+      businessDesc = data.description;
+      document.getElementById('business-description').textContent = businessDesc;
+      console.log('✅ Business description loaded');
+    } else {
+      throw new Error('Failed to load business description');
+    }
+  } catch (err) {
+    if (attempts < maxAttempts) {
+      console.log(`🔄 Retrying business description... (${attempts + 1}/${maxAttempts})`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return loadBusinessDescWithRetry(attempts + 1, maxAttempts);
+    }
+    console.error('❌ Error loading business description:', err);
+    businessDesc = 'Welcome to my freelance services.';
+  }
+}
+
+// ============================================
 // INIT
 // ============================================
-window.addEventListener('load', async () => {
-  loadProjects();
-  loadPortfolio();
-  loadServices();
-  loadCourses();
-  loadDiplomas();
-  loadBusinessDesc();
-  
-  // Check authentication and show logout button if logged in
-  checkAuth();
-});
+window.addEventListener('load', loadAllData);
 
 // ============================================
 // AUTHENTICATION
