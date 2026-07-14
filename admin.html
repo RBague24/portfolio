@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Raphy's Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      background: linear-gradient(135deg, #DC143C 0%, #1a1a1a 100%);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Animated Background */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .floating-item {
+      position: absolute;
+      opacity: 0.1;
+      animation: float linear infinite;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 3rem;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.1;
+      }
+      10% {
+        opacity: 0.1;
+      }
+      90% {
+        opacity: 0.1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0.1;
+      }
+    }
+
+    /* Content Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Login Container */
+    .login-container {
+      text-align: center;
+      z-index: 3;
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .admin-header {
+      margin-bottom: 60px;
+    }
+
+    .admin-header h1 {
+      font-size: 3.5rem;
+      color: #FFD700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      font-weight: 700;
+    }
+
+    .admin-header p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Login Box */
+    .login-box {
+      background: white;
+      padding: 50px;
+      border-radius: 15px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+      animation: popIn 0.3s ease-out;
+      border-left: 5px solid #DC143C;
+      border-bottom: 5px solid #FFD700;
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .login-box h2 {
+      color: #DC143C;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border: 2px solid #E0E0E0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .login-box input:focus {
+      outline: none;
+      border-color: #FFD700;
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+    }
+
+    .login-box input::placeholder {
+      color: #999;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #DC143C, #B22222);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .login-box button:hover {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      color: #1a1a1a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(220, 20, 60, 0.3);
+    }
+
+    .login-error {
+      color: #DC143C;
+      margin-bottom: 15px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .login-error.hidden {
+      display: none;
+    }
+
+    .back-link {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .back-link a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-link a:hover {
+      color: #FFD700;
+    }
+
+    @media (max-width: 768px) {
+      .admin-header h1 {
+        font-size: 2rem;
+      }
+
+      .admin-header p {
+        font-size: 0.9rem;
+      }
+
+      .login-box {
+        width: 90%;
+        padding: 30px;
+      }
+
+      .admin-header {
+        margin-bottom: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="background" id="background"></div>
+
+  <!-- Content Overlay -->
+  <div class="overlay">
+    <div class="login-container">
+      <div class="admin-header">
+        <h1>Admin Portal</h1>
+        <p>Log in to edit your portfolio</p>
+      </div>
+
+      <div class="login-box">
+        <h2>Login</h2>
+        <div class="login-error hidden" id="loginError"></div>
+        <input 
+          type="password" 
+          id="passwordInput" 
+          placeholder="Enter admin password" 
+          onkeypress="if(event.key === 'Enter') login()"
+        >
+        <button onclick="login()">Login</button>
+        <div class="back-link">
+          <a href="index.html">← Back to Portfolio</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Backend API URL
+    const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';
+
+    function login() {
+      const password = document.getElementById('passwordInput').value;
+      const errorEl = document.getElementById('loginError');
+      
+      if (!password) {
+        errorEl.textContent = '❌ Please enter a password';
+        errorEl.classList.remove('hidden');
+        return;
+      }
+
+      errorEl.classList.add('hidden');
+
+      fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Password is correct - store auth token
+          localStorage.setItem('portfolioAuth', 'true');
+          localStorage.setItem('loginTime', Date.now());
+          
+          // Redirect to portfolio
+          window.location.href = 'index.html';
+        } else {
+          // Wrong password
+          errorEl.textContent = '❌ Incorrect password';
+          errorEl.classList.remove('hidden');
+          document.getElementById('passwordInput').value = '';
+          document.getElementById('passwordInput').focus();
+        }
+      })
+      .catch(err => {
+        errorEl.textContent = '❌ Connection error. Try again.';
+        errorEl.classList.remove('hidden');
+        console.error('Login error:', err);
+      });
+    }
+
+    // Create floating background items
+    function createFloatingItems() {
+      const background = document.getElementById('background');
+      const items = ['🔴', '⚫', '✨', '🇵🇷', '💛'];
+      
+      for (let i = 0; i < 8; i++) {
+        const item = document.createElement('div');
+        item.className = 'floating-item';
+        item.textContent = items[i % items.length];
+        
+        const randomLeft = Math.random() * 100;
+        item.style.left = randomLeft + '%';
+        
+        const duration = 12 + Math.random() * 8;
+        item.style.animationDuration = duration + 's';
+        
+        const delay = Math.random() * 5;
+        item.style.animationDelay = delay + 's';
+        
+        background.appendChild(item);
+      }
+    }
+
+    // Initialize
+    window.addEventListener('load', createFloatingItems);
+  </script>
+</body>
+</html>
