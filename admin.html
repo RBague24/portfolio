@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - Raphy's Portfolio</title>
+  <title>Admin Dashboard - RB Coding Solutions</title>
   <style>
     * {
       margin: 0;
@@ -12,159 +12,58 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow: hidden;
-      background: linear-gradient(135deg, #DC143C 0%, #1a1a1a 100%);
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Nunito', sans-serif;
+      background: #2B2B2B;
+      color: #E8E8E8;
+      line-height: 1.6;
     }
 
-    /* Animated Background */
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .floating-item {
-      position: absolute;
-      opacity: 0.1;
-      animation: float linear infinite;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      overflow: hidden;
-      font-size: 3rem;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0.1;
-      }
-      10% {
-        opacity: 0.1;
-      }
-      90% {
-        opacity: 0.1;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(360deg);
-        opacity: 0.1;
-      }
-    }
-
-    /* Content Overlay */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Login Container */
     .login-container {
-      text-align: center;
-      z-index: 3;
-      animation: slideIn 0.8s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(135deg, rgba(91,163,232,.15), rgba(231,76,60,.1));
     }
 
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .admin-header {
-      margin-bottom: 60px;
-    }
-
-    .admin-header h1 {
-      font-size: 3.5rem;
-      color: #FFD700;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-      font-weight: 700;
-    }
-
-    .admin-header p {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.8);
-      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Login Box */
     .login-box {
-      background: white;
+      background: #1F1F1F;
       padding: 50px;
       border-radius: 15px;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
-      animation: popIn 0.3s ease-out;
-      border-left: 5px solid #DC143C;
-      border-bottom: 5px solid #FFD700;
-    }
-
-    @keyframes popIn {
-      from {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 400px;
+      border-left: 5px solid #5BA3E8;
     }
 
     .login-box h2 {
-      color: #DC143C;
+      color: #5BA3E8;
       margin-bottom: 30px;
       font-size: 2rem;
-      font-weight: 700;
     }
 
     .login-box input {
       width: 100%;
       padding: 14px;
       margin-bottom: 20px;
-      border: 2px solid #E0E0E0;
+      border: 2px solid #444;
       border-radius: 8px;
+      background: #2B2B2B;
+      color: #E8E8E8;
       font-size: 1rem;
       transition: all 0.3s;
     }
 
     .login-box input:focus {
       outline: none;
-      border-color: #FFD700;
-      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
-    }
-
-    .login-box input::placeholder {
-      color: #999;
+      border-color: #5BA3E8;
+      box-shadow: 0 0 0 3px rgba(91, 163, 232, 0.1);
     }
 
     .login-box button {
       width: 100%;
       padding: 14px;
-      background: linear-gradient(135deg, #DC143C, #B22222);
+      background: linear-gradient(135deg, #5BA3E8, #3B91D8);
       color: white;
       border: none;
       border-radius: 8px;
@@ -172,165 +71,573 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      margin-top: 10px;
     }
 
     .login-box button:hover {
-      background: linear-gradient(135deg, #FFD700, #FFA500);
-      color: #1a1a1a;
+      background: linear-gradient(135deg, #E74C3C, #C0392B);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(220, 20, 60, 0.3);
     }
 
-    .login-error {
-      color: #DC143C;
+    .error-message {
+      color: #E74C3C;
       margin-bottom: 15px;
       font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .login-error.hidden {
       display: none;
     }
 
-    .back-link {
-      margin-top: 30px;
+    /* Dashboard Styles */
+    .dashboard {
+      display: none;
+      padding: 20px;
+    }
+
+    .dashboard.active {
+      display: block;
+    }
+
+    .dashboard-header {
+      background: #1F1F1F;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #5BA3E8;
+    }
+
+    .dashboard-header h1 {
+      color: #5BA3E8;
+      font-size: 2rem;
+    }
+
+    .logout-btn {
+      background: #E74C3C;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #C0392B;
+      transform: translateY(-2px);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section {
+      background: #1F1F1F;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      border-left: 5px solid #5BA3E8;
+    }
+
+    .section h2 {
+      color: #5BA3E8;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .add-btn {
+      background: #5BA3E8;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+
+    .add-btn:hover {
+      background: #3B91D8;
+      transform: translateY(-2px);
+    }
+
+    .items-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .item {
+      background: rgba(60, 60, 60, 0.5);
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(91, 163, 232, 0.2);
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-info h4 {
+      color: #5BA3E8;
+      margin-bottom: 5px;
+    }
+
+    .item-info p {
+      color: #AAAAAA;
+      font-size: 0.9rem;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .edit-btn, .delete-btn {
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .edit-btn {
+      background: #5BA3E8;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background: #3B91D8;
+      transform: translateY(-2px);
+    }
+
+    .delete-btn {
+      background: #E74C3C;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background: #C0392B;
+      transform: translateY(-2px);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #1F1F1F;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      border-left: 5px solid #5BA3E8;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-content h3 {
+      color: #5BA3E8;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #E8E8E8;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #444;
+      border-radius: 5px;
+      background: #2B2B2B;
+      color: #E8E8E8;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #5BA3E8;
+      box-shadow: 0 0 0 3px rgba(91, 163, 232, 0.1);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .save-btn {
+      background: #5BA3E8;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background: #3B91D8;
+    }
+
+    .cancel-btn {
+      background: #444;
+      color: #E8E8E8;
+    }
+
+    .cancel-btn:hover {
+      background: #555;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: #5BA3E8;
+      font-size: 24px;
+      cursor: pointer;
+      float: right;
+    }
+
+    .empty-state {
       text-align: center;
-    }
-
-    .back-link a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.3s;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    .back-link a:hover {
-      color: #FFD700;
-    }
-
-    @media (max-width: 768px) {
-      .admin-header h1 {
-        font-size: 2rem;
-      }
-
-      .admin-header p {
-        font-size: 0.9rem;
-      }
-
-      .login-box {
-        width: 90%;
-        padding: 30px;
-      }
-
-      .admin-header {
-        margin-bottom: 40px;
-      }
+      color: #AAAAAA;
+      padding: 30px;
     }
   </style>
 </head>
 <body>
-  <!-- Animated Background -->
-  <div class="background" id="background"></div>
+  <!-- Login Screen -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <div class="error-message" id="loginError"></div>
+      <input 
+        type="password" 
+        id="passwordInput" 
+        placeholder="Enter admin password" 
+        onkeypress="if(event.key === 'Enter') login()"
+      >
+      <button onclick="login()">Login to Dashboard</button>
+    </div>
+  </div>
 
-  <!-- Content Overlay -->
-  <div class="overlay">
-    <div class="login-container">
-      <div class="admin-header">
-        <h1>Admin Portal</h1>
-        <p>Log in to edit your portfolio</p>
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <div class="container">
+      <div class="dashboard-header">
+        <div>
+          <h1>🔧 Admin Dashboard</h1>
+          <p style="color: #AAAAAA; margin-top: 5px;">RB Coding Solutions Management</p>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
       </div>
 
-      <div class="login-box">
-        <h2>Login</h2>
-        <div class="login-error hidden" id="loginError"></div>
-        <input 
-          type="password" 
-          id="passwordInput" 
-          placeholder="Enter admin password" 
-          onkeypress="if(event.key === 'Enter') login()"
-        >
-        <button onclick="login()">Login</button>
-        <div class="back-link">
-          <a href="index.html">← Back to Portfolio</a>
-        </div>
+      <!-- Business Description Section -->
+      <div class="section">
+        <h2>📝 Business Description</h2>
+        <div id="businessDescDisplay" style="margin-bottom: 15px;"></div>
+        <button class="add-btn" onclick="openBusinessDescModal()">Edit Description</button>
+      </div>
+
+      <!-- Projects Section -->
+      <div class="section">
+        <h2>🎮 Projects</h2>
+        <button class="add-btn" onclick="openProjectModal()">+ Add Project</button>
+        <div class="items-list" id="projectsList"></div>
+      </div>
+
+      <!-- Services Section -->
+      <div class="section">
+        <h2>💼 Services</h2>
+        <button class="add-btn" onclick="openServiceModal()">+ Add Service</button>
+        <div class="items-list" id="servicesList"></div>
+      </div>
+
+      <!-- Courses Section -->
+      <div class="section">
+        <h2>📚 Courses</h2>
+        <button class="add-btn" onclick="openCourseModal()">+ Add Course</button>
+        <div class="items-list" id="coursesList"></div>
+      </div>
+
+      <!-- Diplomas Section -->
+      <div class="section">
+        <h2>🎓 Diplomas</h2>
+        <button class="add-btn" onclick="openDiplomaModal()">+ Add Diploma</button>
+        <div class="items-list" id="diplomasList"></div>
+      </div>
+
+      <!-- Sample Work Section -->
+      <div class="section">
+        <h2>🖼️ Sample Work</h2>
+        <button class="add-btn" onclick="openPortfolioModal()">+ Add Sample Work</button>
+        <div class="items-list" id="portfolioList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <!-- Business Desc Modal -->
+  <div class="modal" id="businessDescModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('businessDescModal')">×</button>
+      <h3>Edit Business Description</h3>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="businessDesc"></textarea>
+      </div>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="saveBusinessDesc()">Save</button>
+        <button class="cancel-btn" onclick="closeModal('businessDescModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div class="modal" id="projectModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('projectModal')">×</button>
+      <h3 id="projectModalTitle">Add Project</h3>
+      <div class="form-group">
+        <label>Project Name</label>
+        <input type="text" id="projectName" placeholder="Enter project name">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="projectDesc" placeholder="Enter project description"></textarea>
+      </div>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="saveProject()">Save</button>
+        <button class="cancel-btn" onclick="closeModal('projectModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service Modal -->
+  <div class="modal" id="serviceModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('serviceModal')">×</button>
+      <h3 id="serviceModalTitle">Add Service</h3>
+      <div class="form-group">
+        <label>Service Title</label>
+        <input type="text" id="serviceTitle" placeholder="Enter service title">
+      </div>
+      <div class="form-group">
+        <label>Price</label>
+        <input type="text" id="servicePrice" placeholder="Enter price (e.g., $99)">
+      </div>
+      <div class="form-group">
+        <label>Features (comma-separated)</label>
+        <textarea id="serviceFeatures" placeholder="Feature 1, Feature 2, Feature 3"></textarea>
+      </div>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="saveService()">Save</button>
+        <button class="cancel-btn" onclick="closeModal('serviceModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Modal -->
+  <div class="modal" id="courseModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('courseModal')">×</button>
+      <h3 id="courseModalTitle">Add Course</h3>
+      <div class="form-group">
+        <label>Course Name</label>
+        <input type="text" id="courseName" placeholder="Enter course name">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="courseStatus">
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Progress (%)</label>
+        <input type="number" id="courseProgress" min="0" max="100" value="0">
+      </div>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="saveCourse()">Save</button>
+        <button class="cancel-btn" onclick="closeModal('courseModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Diploma Modal -->
+  <div class="modal" id="diplomaModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('diplomaModal')">×</button>
+      <h3 id="diplomaModalTitle">Add Diploma</h3>
+      <div class="form-group">
+        <label>Diploma Name</label>
+        <input type="text" id="diplomaName" placeholder="Enter diploma name">
+      </div>
+      <div class="form-group">
+        <label>Year</label>
+        <input type="number" id="diplomaYear" placeholder="Enter year">
+      </div>
+      <div class="form-group">
+        <label>Image URL (optional)</label>
+        <input type="text" id="diplomaImg" placeholder="Enter image URL">
+      </div>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="saveDiploma()">Save</button>
+        <button class="cancel-btn" onclick="closeModal('diplomaModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Portfolio Modal -->
+  <div class="modal" id="portfolioModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('portfolioModal')">×</button>
+      <h3 id="portfolioModalTitle">Add Sample Work</h3>
+      <div class="form-group">
+        <label>Website Title</label>
+        <input type="text" id="portfolioTitle" placeholder="Enter website title">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="portfolioDesc" placeholder="Enter description"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Website Link</label>
+        <input type="text" id="portfolioLink" placeholder="Enter website URL">
+      </div>
+      <div class="modal-buttons">
+        <button class="save-btn" onclick="savePortfolio()">Save</button>
+        <button class="cancel-btn" onclick="closeModal('portfolioModal')">Cancel</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Backend API URL
     const API_BASE = 'https://portfolio-backend-kr7d.onrender.com/api';
+    let currentEditId = null;
+    let projs = [];
+    let portfolio = [];
+    let services = [];
+    let courses = [];
+    let degrees = [];
+    let businessDesc = '';
 
     function login() {
       const password = document.getElementById('passwordInput').value;
       const errorEl = document.getElementById('loginError');
-      
-      if (!password) {
-        errorEl.textContent = '❌ Please enter a password';
-        errorEl.classList.remove('hidden');
-        return;
-      }
-
-      errorEl.classList.add('hidden');
-
-      fetch(`${API_BASE}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          // Password is correct - store auth token
-          localStorage.setItem('portfolioAuth', 'true');
-          localStorage.setItem('loginTime', Date.now());
-          
-          // Redirect to portfolio
-          window.location.href = 'index.html';
-        } else {
-          // Wrong password
-          errorEl.textContent = '❌ Incorrect password';
-          errorEl.classList.remove('hidden');
-          document.getElementById('passwordInput').value = '';
-          document.getElementById('passwordInput').focus();
-        }
-      })
-      .catch(err => {
-        errorEl.textContent = '❌ Connection error. Try again.';
-        errorEl.classList.remove('hidden');
-        console.error('Login error:', err);
-      });
+      if (!password) {errorEl.textContent = 'Please enter password'; errorEl.style.display = 'block'; return;}
+      fetch(`${API_BASE}/auth/login`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({password})})
+      .then(r => r.json()).then(data => {
+        if (data.success) {localStorage.setItem('adminAuth', 'true'); showDashboard();}
+        else {errorEl.textContent = 'Incorrect password'; errorEl.style.display = 'block';}
+      }).catch(err => {errorEl.textContent = 'Connection error'; errorEl.style.display = 'block';});
     }
 
-    // Create floating background items
-    function createFloatingItems() {
-      const background = document.getElementById('background');
-      const items = ['🔴', '⚫', '✨', '🇵🇷', '💛'];
-      
-      for (let i = 0; i < 8; i++) {
-        const item = document.createElement('div');
-        item.className = 'floating-item';
-        item.textContent = items[i % items.length];
-        
-        const randomLeft = Math.random() * 100;
-        item.style.left = randomLeft + '%';
-        
-        const duration = 12 + Math.random() * 8;
-        item.style.animationDuration = duration + 's';
-        
-        const delay = Math.random() * 5;
-        item.style.animationDelay = delay + 's';
-        
-        background.appendChild(item);
-      }
-    }
+    function logout() {localStorage.removeItem('adminAuth'); document.getElementById('loginContainer').style.display = 'flex'; document.getElementById('dashboard').classList.remove('active'); document.getElementById('passwordInput').value = '';}
 
-    // Initialize
-    window.addEventListener('load', createFloatingItems);
+    function showDashboard() {document.getElementById('loginContainer').style.display = 'none'; document.getElementById('dashboard').classList.add('active'); loadAllData();}
+
+    async function loadAllData() {await Promise.all([loadProjects(), loadPortfolio(), loadServices(), loadCourses(), loadDiplomas(), loadBusinessDesc()]);}
+
+    async function loadProjects() {try {const r = await fetch(`${API_BASE}/projects`); projs = await r.json(); renderProjectsList();} catch (err) {console.error('Load projects error:', err);}}
+
+    async function loadPortfolio() {try {const r = await fetch(`${API_BASE}/portfolio`); portfolio = await r.json(); renderPortfolioList();} catch (err) {console.error('Load portfolio error:', err);}}
+
+    async function loadServices() {try {const r = await fetch(`${API_BASE}/services`); services = await r.json(); renderServicesList();} catch (err) {console.error('Load services error:', err);}}
+
+    async function loadCourses() {try {const r = await fetch(`${API_BASE}/courses`); courses = await r.json(); renderCoursesList();} catch (err) {console.error('Load courses error:', err);}}
+
+    async function loadDiplomas() {try {const r = await fetch(`${API_BASE}/diplomas`); degrees = await r.json(); renderDiplomasList();} catch (err) {console.error('Load diplomas error:', err);}}
+
+    async function loadBusinessDesc() {try {const r = await fetch(`${API_BASE}/business-desc`); const data = await r.json(); businessDesc = data.description || ''; document.getElementById('businessDescDisplay').innerHTML = `<p><strong>Current:</strong> ${businessDesc}</p>`;} catch (err) {console.error('Load business desc error:', err);}}
+
+    function renderProjectsList() {const html = projs.length ? projs.map(p => `<div class="item"><div class="item-info"><h4>${p.name}</h4><p>${p.desc}</p></div><div class="item-actions"><button class="edit-btn" onclick="editProject(${p.id})">Edit</button><button class="delete-btn" onclick="deleteProject(${p.id})">Delete</button></div></div>`).join('') : '<div class="empty-state">No projects yet</div>'; document.getElementById('projectsList').innerHTML = html;}
+
+    function renderServicesList() {const html = services.length ? services.map(s => `<div class="item"><div class="item-info"><h4>${s.title}</h4><p>${s.price} - ${s.features.join(', ')}</p></div><div class="item-actions"><button class="edit-btn" onclick="editService(${s.id})">Edit</button><button class="delete-btn" onclick="deleteService(${s.id})">Delete</button></div></div>`).join('') : '<div class="empty-state">No services yet</div>'; document.getElementById('servicesList').innerHTML = html;}
+
+    function renderCoursesList() {const html = courses.length ? courses.map(c => `<div class="item"><div class="item-info"><h4>${c.name}</h4><p>Status: ${c.status} | Progress: ${c.progress}%</p></div><div class="item-actions"><button class="edit-btn" onclick="editCourse(${c.id})">Edit</button><button class="delete-btn" onclick="deleteCourse(${c.id})">Delete</button></div></div>`).join('') : '<div class="empty-state">No courses yet</div>'; document.getElementById('coursesList').innerHTML = html;}
+
+    function renderDiplomasList() {const html = degrees.length ? degrees.map(d => `<div class="item"><div class="item-info"><h4>${d.name}</h4><p>Year: ${d.year}</p></div><div class="item-actions"><button class="edit-btn" onclick="editDiploma(${d.id})">Edit</button><button class="delete-btn" onclick="deleteDiploma(${d.id})">Delete</button></div></div>`).join('') : '<div class="empty-state">No diplomas yet</div>'; document.getElementById('diplomasList').innerHTML = html;}
+
+    function renderPortfolioList() {const html = portfolio.length ? portfolio.map(p => `<div class="item"><div class="item-info"><h4>${p.title}</h4><p>${p.desc}</p></div><div class="item-actions"><button class="edit-btn" onclick="editPortfolio(${p.id})">Edit</button><button class="delete-btn" onclick="deletePortfolio(${p.id})">Delete</button></div></div>`).join('') : '<div class="empty-state">No sample work yet</div>'; document.getElementById('portfolioList').innerHTML = html;}
+
+    function openModal(id) {document.getElementById(id).classList.add('active');}
+    function closeModal(id) {document.getElementById(id).classList.remove('active'); currentEditId = null;}
+
+    function openProjectModal() {currentEditId = null; document.getElementById('projectModalTitle').textContent = 'Add Project'; document.getElementById('projectName').value = ''; document.getElementById('projectDesc').value = ''; openModal('projectModal');}
+    function editProject(id) {const p = projs.find(x => x.id === id); if (!p) return; currentEditId = id; document.getElementById('projectModalTitle').textContent = 'Edit Project'; document.getElementById('projectName').value = p.name; document.getElementById('projectDesc').value = p.desc; openModal('projectModal');}
+    async function saveProject() {const name = document.getElementById('projectName').value; const desc = document.getElementById('projectDesc').value; if (!name || !desc) {alert('Fill all fields'); return;} try {const method = currentEditId ? 'PUT' : 'POST'; const url = currentEditId ? `${API_BASE}/projects/${currentEditId}` : `${API_BASE}/projects`; const r = await fetch(url, {method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name, desc})}); if (r.ok) {loadProjects(); closeModal('projectModal');}} catch (err) {alert('Error: ' + err.message);}}
+    async function deleteProject(id) {if (!confirm('Delete this project?')) return; try {await fetch(`${API_BASE}/projects/${id}`, {method: 'DELETE'}); loadProjects();} catch (err) {alert('Error: ' + err.message);}}
+
+    function openServiceModal() {currentEditId = null; document.getElementById('serviceModalTitle').textContent = 'Add Service'; document.getElementById('serviceTitle').value = ''; document.getElementById('servicePrice').value = ''; document.getElementById('serviceFeatures').value = ''; openModal('serviceModal');}
+    function editService(id) {const s = services.find(x => x.id === id); if (!s) return; currentEditId = id; document.getElementById('serviceModalTitle').textContent = 'Edit Service'; document.getElementById('serviceTitle').value = s.title; document.getElementById('servicePrice').value = s.price; document.getElementById('serviceFeatures').value = s.features.join(', '); openModal('serviceModal');}
+    async function saveService() {const title = document.getElementById('serviceTitle').value; const price = document.getElementById('servicePrice').value; const features = document.getElementById('serviceFeatures').value.split(',').map(f => f.trim()); if (!title || !price || !features[0]) {alert('Fill all fields'); return;} try {const method = currentEditId ? 'PUT' : 'POST'; const url = currentEditId ? `${API_BASE}/services/${currentEditId}` : `${API_BASE}/services`; const r = await fetch(url, {method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify({title, price, features})}); if (r.ok) {loadServices(); closeModal('serviceModal');}} catch (err) {alert('Error: ' + err.message);}}
+    async function deleteService(id) {if (!confirm('Delete this service?')) return; try {await fetch(`${API_BASE}/services/${id}`, {method: 'DELETE'}); loadServices();} catch (err) {alert('Error: ' + err.message);}}
+
+    function openCourseModal() {currentEditId = null; document.getElementById('courseModalTitle').textContent = 'Add Course'; document.getElementById('courseName').value = ''; document.getElementById('courseStatus').value = 'In Progress'; document.getElementById('courseProgress').value = 0; openModal('courseModal');}
+    function editCourse(id) {const c = courses.find(x => x.id === id); if (!c) return; currentEditId = id; document.getElementById('courseModalTitle').textContent = 'Edit Course'; document.getElementById('courseName').value = c.name; document.getElementById('courseStatus').value = c.status; document.getElementById('courseProgress').value = c.progress || 0; openModal('courseModal');}
+    async function saveCourse() {const name = document.getElementById('courseName').value; const status = document.getElementById('courseStatus').value; const progress = parseInt(document.getElementById('courseProgress').value) || 0; if (!name || !status) {alert('Fill all fields'); return;} try {const method = currentEditId ? 'PUT' : 'POST'; const url = currentEditId ? `${API_BASE}/courses/${currentEditId}` : `${API_BASE}/courses`; const r = await fetch(url, {method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name, status, progress})}); if (r.ok) {loadCourses(); closeModal('courseModal');}} catch (err) {alert('Error: ' + err.message);}}
+    async function deleteCourse(id) {if (!confirm('Delete this course?')) return; try {await fetch(`${API_BASE}/courses/${id}`, {method: 'DELETE'}); loadCourses();} catch (err) {alert('Error: ' + err.message);}}
+
+    function openDiplomaModal() {currentEditId = null; document.getElementById('diplomaModalTitle').textContent = 'Add Diploma'; document.getElementById('diplomaName').value = ''; document.getElementById('diplomaYear').value = ''; document.getElementById('diplomaImg').value = ''; openModal('diplomaModal');}
+    function editDiploma(id) {const d = degrees.find(x => x.id === id); if (!d) return; currentEditId = id; document.getElementById('diplomaModalTitle').textContent = 'Edit Diploma'; document.getElementById('diplomaName').value = d.name; document.getElementById('diplomaYear').value = d.year; document.getElementById('diplomaImg').value = d.img || ''; openModal('diplomaModal');}
+    async function saveDiploma() {const name = document.getElementById('diplomaName').value; const year = document.getElementById('diplomaYear').value; const img = document.getElementById('diplomaImg').value; if (!name || !year) {alert('Fill all fields'); return;} try {const method = currentEditId ? 'PUT' : 'POST'; const url = currentEditId ? `${API_BASE}/diplomas/${currentEditId}` : `${API_BASE}/diplomas`; const r = await fetch(url, {method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name, year, img})}); if (r.ok) {loadDiplomas(); closeModal('diplomaModal');}} catch (err) {alert('Error: ' + err.message);}}
+    async function deleteDiploma(id) {if (!confirm('Delete this diploma?')) return; try {await fetch(`${API_BASE}/diplomas/${id}`, {method: 'DELETE'}); loadDiplomas();} catch (err) {alert('Error: ' + err.message);}}
+
+    function openPortfolioModal() {currentEditId = null; document.getElementById('portfolioModalTitle').textContent = 'Add Sample Work'; document.getElementById('portfolioTitle').value = ''; document.getElementById('portfolioDesc').value = ''; document.getElementById('portfolioLink').value = ''; openModal('portfolioModal');}
+    function editPortfolio(id) {const p = portfolio.find(x => x.id === id); if (!p) return; currentEditId = id; document.getElementById('portfolioModalTitle').textContent = 'Edit Sample Work'; document.getElementById('portfolioTitle').value = p.title; document.getElementById('portfolioDesc').value = p.desc; document.getElementById('portfolioLink').value = p.link || ''; openModal('portfolioModal');}
+    async function savePortfolio() {const title = document.getElementById('portfolioTitle').value; const desc = document.getElementById('portfolioDesc').value; const link = document.getElementById('portfolioLink').value; if (!title || !desc || !link) {alert('Fill all fields'); return;} try {const method = currentEditId ? 'PUT' : 'POST'; const url = currentEditId ? `${API_BASE}/portfolio/${currentEditId}` : `${API_BASE}/portfolio`; const r = await fetch(url, {method, headers: {'Content-Type': 'application/json'}, body: JSON.stringify({title, desc, link})}); if (r.ok) {loadPortfolio(); closeModal('portfolioModal');}} catch (err) {alert('Error: ' + err.message);}}
+    async function deletePortfolio(id) {if (!confirm('Delete this sample work?')) return; try {await fetch(`${API_BASE}/portfolio/${id}`, {method: 'DELETE'}); loadPortfolio();} catch (err) {alert('Error: ' + err.message);}}
+
+    function openBusinessDescModal() {document.getElementById('businessDesc').value = businessDesc; openModal('businessDescModal');}
+    async function saveBusinessDesc() {const desc = document.getElementById('businessDesc').value; if (!desc) {alert('Enter description'); return;} try {const r = await fetch(`${API_BASE}/business-desc`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({description: desc})}); if (r.ok) {businessDesc = desc; document.getElementById('businessDescDisplay').innerHTML = `<p><strong>Current:</strong> ${businessDesc}</p>`; closeModal('businessDescModal');}} catch (err) {alert('Error: ' + err.message);}}
+
+    window.addEventListener('load', () => {if (localStorage.getItem('adminAuth')) {showDashboard();}});
   </script>
 </body>
 </html>
