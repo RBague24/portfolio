@@ -32,9 +32,6 @@ async function connectMongoDB() {
       maxPoolSize: 5,
       minPoolSize: 1,
       maxIdleTimeMS: 45000,
-      tls: true,
-      tlsAllowInvalidCertificates: true,
-      tlsInsecure: true,
       serverSelectionTimeoutMS: 30000,
       connectTimeoutMS: 30000,
       socketTimeoutMS: 30000,
@@ -57,7 +54,28 @@ async function connectMongoDB() {
   }
 }
 
-// Health Check
+// ========== AUTHENTICATION ==========
+// Password stored in environment variable (secret)
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'JennaJen24/7!!!';
+
+app.post('/api/auth/login', (req, res) => {
+  const { password } = req.body;
+  
+  if (!password) {
+    return res.status(400).json({ error: 'Password required' });
+  }
+  
+  if (password === ADMIN_PASSWORD) {
+    // Password is correct - return success
+    // Frontend will handle the token/session
+    res.json({ success: true, message: 'Login successful' });
+  } else {
+    // Wrong password
+    res.status(401).json({ success: false, error: 'Invalid password' });
+  }
+});
+
+// Health Check (no DB needed)
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'Server is running ✅',
@@ -66,7 +84,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Middleware to check DB connection
+// Middleware to check DB connection (for all other endpoints)
 app.use((req, res, next) => {
   if (!db || !isConnected) {
     return res.status(503).json({ error: 'Database not ready. Please try again in a moment.' });
@@ -115,6 +133,29 @@ app.delete('/api/projects/:id', async (req, res) => {
   }
 });
 
+app.put('/api/projects/:id', async (req, res) => {
+  try {
+    const { name, desc } = req.body;
+    if (!name || !desc) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    const result = await db.collection('projects').updateOne(
+      { id: parseInt(req.params.id) },
+      { $set: { name, desc, updatedAt: new Date() } }
+    );
+    
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    
+    res.json({ success: true, name, desc });
+  } catch (err) {
+    console.error('PUT /api/projects:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ========== PORTFOLIO ==========
 app.get('/api/portfolio', async (req, res) => {
   try {
@@ -152,6 +193,29 @@ app.delete('/api/portfolio/:id', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('DELETE /api/portfolio:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/portfolio/:id', async (req, res) => {
+  try {
+    const { company, url, desc, img } = req.body;
+    if (!company || !url || !desc) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    const result = await db.collection('portfolio').updateOne(
+      { id: parseInt(req.params.id) },
+      { $set: { company, url, desc, img: img || '', updatedAt: new Date() } }
+    );
+    
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Portfolio item not found' });
+    }
+    
+    res.json({ success: true, ...req.body });
+  } catch (err) {
+    console.error('PUT /api/portfolio:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -200,6 +264,29 @@ app.delete('/api/services/:id', async (req, res) => {
   }
 });
 
+app.put('/api/services/:id', async (req, res) => {
+  try {
+    const { title, price, features } = req.body;
+    if (!title || !price || !features) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    const result = await db.collection('services').updateOne(
+      { id: parseInt(req.params.id) },
+      { $set: { title, price, features, updatedAt: new Date() } }
+    );
+    
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Service not found' });
+    }
+    
+    res.json({ success: true, title, price, features });
+  } catch (err) {
+    console.error('PUT /api/services:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ========== COURSES ==========
 app.get('/api/courses', async (req, res) => {
   try {
@@ -241,6 +328,29 @@ app.delete('/api/courses/:id', async (req, res) => {
   }
 });
 
+app.put('/api/courses/:id', async (req, res) => {
+  try {
+    const { name, status, progress } = req.body;
+    if (!name || !status) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    const result = await db.collection('courses').updateOne(
+      { id: parseInt(req.params.id) },
+      { $set: { name, status, progress: progress || 0, updatedAt: new Date() } }
+    );
+    
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+    
+    res.json({ success: true, name, status, progress });
+  } catch (err) {
+    console.error('PUT /api/courses:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ========== DIPLOMAS ==========
 app.get('/api/diplomas', async (req, res) => {
   try {
@@ -278,6 +388,29 @@ app.delete('/api/diplomas/:id', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('DELETE /api/diplomas:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/diplomas/:id', async (req, res) => {
+  try {
+    const { name, year, img } = req.body;
+    if (!name || !year) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    const result = await db.collection('diplomas').updateOne(
+      { id: parseInt(req.params.id) },
+      { $set: { name, year, img: img || '', updatedAt: new Date() } }
+    );
+    
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: 'Diploma not found' });
+    }
+    
+    res.json({ success: true, name, year, img });
+  } catch (err) {
+    console.error('PUT /api/diplomas:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
