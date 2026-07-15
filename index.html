@@ -15,13 +15,13 @@ a:hover{text-decoration:underline}
 /* ============================================
    HEADER & NAV
    ============================================ */
-header{background:rgba(0,0,0,.98);padding:20px 0;position:sticky;top:0;z-index:100;border-bottom:2px solid #DC143C}
+header{background:rgba(0,14,34,.95);padding:20px 0;position:sticky;top:0;z-index:100;border-bottom:2px solid #DC143C}
 .header-content{display:flex;justify-content:space-between;align-items:center}
-.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#FFD700}
+.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#DC143C}
 nav{display:flex;gap:30px;flex-wrap:wrap}
 nav button{background:none;border:none;color:#fff;cursor:pointer;font-size:16px;font-weight:600;transition:color .3s}
-nav button:hover{color:#FFD700}
-nav button.active{color:#FFD700;border-bottom:2px solid #FFD700;padding-bottom:5px}
+nav button:hover{color:#DC143C}
+nav button.active{color:#DC143C;border-bottom:2px solid #DC143C;padding-bottom:5px}
 
 /* ============================================
    PAGE STRUCTURE
@@ -32,16 +32,16 @@ nav button.active{color:#FFD700;border-bottom:2px solid #FFD700;padding-bottom:5
 /* ============================================
    HERO / HOME PAGE
    ============================================ */
-.hero{background:linear-gradient(135deg,rgba(0,0,0,.95),rgba(220,20,60,.25));padding:100px 0;text-align:center;color:#fff;position:relative;overflow:hidden}
+.hero{background:linear-gradient(135deg,rgba(0,14,34,.9),rgba(206,17,38,.3));padding:100px 0;text-align:center;color:#fff;position:relative;overflow:hidden}
 .hero h1{font-family:'Playfair Display',serif;font-size:56px;margin:20px 0;color:#fff}
-.hero .badge{display:inline-block;background:#FFD700;color:#1a1a1a;padding:10px 20px;border-radius:50px;margin:20px 0;font-size:14px;font-weight:700}
+.hero .badge{display:inline-block;background:#DC143C;color:#fff;padding:10px 20px;border-radius:50px;margin:20px 0;font-size:14px;font-weight:700}
 .hero .stats{display:flex;justify-content:center;gap:60px;margin:40px 0;flex-wrap:wrap}
 .stat{text-align:center}
-.stat-num{font-size:48px;font-weight:700;color:#FFD700}
+.stat-num{font-size:48px;font-weight:700;color:#DC143C}
 .stat-label{font-size:14px;color:#aaa;margin-top:5px;text-transform:uppercase}
 .cta-buttons{display:flex;gap:20px;justify-content:center;margin:40px 0;flex-wrap:wrap}
 .btn{display:inline-block;padding:14px 32px;background:#DC143C;color:#fff;border:2px solid #DC143C;border-radius:5px;cursor:pointer;font-weight:600;font-size:16px;transition:all .3s}
-.btn:hover{background:#FFD700;color:#1a1a1a;border-color:#FFD700}
+.btn:hover{background:transparent;color:#DC143C}
 .btn.secondary{background:transparent;color:#DC143C}
 .btn.secondary:hover{background:#DC143C;color:#fff}
 .btn:focus{outline:none}
@@ -54,18 +54,18 @@ h2{font-family:'Playfair Display',serif;font-size:42px;margin:40px 0 30px;color:
 
 /* PROYECTOS / PROJECTS */
 .area-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;padding:25px;cursor:pointer;transition:all .3s;text-align:center}
-.area-card:hover{border-color:#FFD700;transform:translateY(-5px);box-shadow:0 10px 30px rgba(220,20,60,.2)}
+.area-card:hover{border-color:#DC143C;transform:translateY(-5px);box-shadow:0 10px 30px rgba(206,17,38,.2)}
 .area-card h3{font-size:20px;margin:15px 0;color:#DC143C}
 .area-card p{font-size:14px;color:#aaa}
 
 /* PROJECT GRID INSIDE */
 .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin:30px 0}
 .project-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;padding:20px;text-align:center;transition:all .3s;position:relative}
-.project-card:hover{border-color:#FFD700;transform:translateY(-5px)}
+.project-card:hover{border-color:#DC143C;transform:translateY(-5px)}
 .project-card h4{color:#DC143C;margin:10px 0}
 .project-card p{font-size:13px;color:#aaa}
 .delete-btn{position:absolute;top:10px;right:10px;background:#DC143C;border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
-.delete-btn:hover{background:#B22222;box-shadow:0 4px 8px rgba(220,20,60,0.4)}
+.delete-btn:hover{background:#B22222}
 
 /* Admin-only elements */
 .admin-only{display:none}
@@ -78,7 +78,7 @@ h2{font-family:'Playfair Display',serif;font-size:42px;margin:40px 0 30px;color:
    ============================================ */
 .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px;margin:30px 0}
 .portfolio-card{background:rgba(20,30,50,.8);border:1px solid rgba(206,17,38,.3);border-radius:8px;overflow:hidden;transition:all .3s;position:relative}
-.portfolio-card:hover{border-color:#FFD700;transform:translateY(-8px);box-shadow:0 12px 35px rgba(220,20,60,.25)}
+.portfolio-card:hover{border-color:#DC143C;transform:translateY(-8px);box-shadow:0 12px 35px rgba(206,17,38,.25)}
 .portfolio-img{width:100%;height:220px;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;text-align:center;padding:15px;overflow:hidden}
 .portfolio-img img{width:100%;height:100%;object-fit:cover}
 .portfolio-info{padding:20px}
@@ -90,14 +90,14 @@ h2{font-family:'Playfair Display',serif;font-size:42px;margin:40px 0 30px;color:
    ============================================ */
 .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:30px;margin:40px 0}
 .service-card{background:rgba(20,30,50,.9);border:2px solid rgba(206,17,38,.2);border-radius:10px;padding:35px;text-align:center;transition:all .3s;position:relative}
-.service-card:hover{border-color:#FFD700;transform:translateY(-8px);box-shadow:0 15px 40px rgba(220,20,60,.3)}
+.service-card:hover{border-color:#DC143C;transform:translateY(-8px);box-shadow:0 15px 40px rgba(206,17,38,.3)}
 .service-card h3{font-size:22px;color:#DC143C;margin:0 0 10px}
 .service-price{font-size:36px;font-weight:700;color:#DC143C;margin:20px 0}
 .service-price .currency{font-size:20px}
 .service-desc{font-size:14px;color:#aaa;margin:20px 0;line-height:1.8;min-height:60px}
 .service-features{list-style:none;margin:20px 0;text-align:left}
 .service-features li{font-size:13px;color:#bbb;margin:10px 0;padding-left:25px;position:relative}
-.service-features li:before{content:"✓";position:absolute;left:0;color:#FFD700;font-weight:700}
+.service-features li:before{content:"✓";position:absolute;left:0;color:#DC143C;font-weight:700}
 
 /* ============================================
    COURSES SECTION
@@ -138,7 +138,7 @@ h2{font-family:'Playfair Display',serif;font-size:42px;margin:40px 0 30px;color:
 .timeline{position:relative;padding:20px 0}
 .timeline-item{padding:20px 0;padding-left:40px;position:relative;border-left:2px solid rgba(206,17,38,.3)}
 .timeline-item:last-child{border-left-color:transparent}
-.timeline-item:before{content:"";position:absolute;left:-8px;top:25px;width:14px;height:14px;background:#DC143C;border-radius:50%;border:3px solid #000e22}
+.timeline-item:before{content:"";position:absolute;left:-8px;top:25px;width:14px;height:14px;background:#DC143C;border-radius:50%;border:3px solid #000000}
 .timeline-item h4{color:#DC143C;margin:0 0 5px;font-size:16px}
 .timeline-item p{font-size:13px;color:#aaa;margin:5px 0}
 
@@ -147,7 +147,7 @@ h2{font-family:'Playfair Display',serif;font-size:42px;margin:40px 0 30px;color:
    ============================================ */
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .modal.active{display:flex}
-.modal-content{background:#000e22;border:2px solid #DC143C;border-radius:10px;padding:30px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;margin:auto}
+.modal-content{background:#000000;border:2px solid #DC143C;border-radius:10px;padding:30px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;margin:auto}
 .modal-content h3{color:#DC143C;margin:0 0 20px;font-size:24px}
 .form-group{margin:20px 0}
 .form-group label{display:block;color:#ccc;font-weight:600;margin-bottom:8px;font-size:14px}
@@ -177,180 +177,7 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
   .portfolio-grid{grid-template-columns:1fr}
   .services-grid{grid-template-columns:1fr}
 }
-
-/* ============================================
-   ALTERNATING PAGE BACKGROUNDS
-   ============================================ */
-#inicio {
-  background: linear-gradient(180deg, #000e22 0%, #0a1a30 100%);
-}
-
-#proyectos {
-  background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
-}
-
-#proyectos h2,
-#proyectos .area-card h3,
-#proyectos .area-card p,
-#freelance h2,
-#freelance .portfolio-card h4,
-#freelance .portfolio-info p {
-  color: #1a1a1a;
-}
-
-#freelance {
-  background: linear-gradient(180deg, #000e22 0%, #0a1a30 100%);
-}
-
-#services {
-  background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
-}
-
-#services h2,
-#services .pricing-card h3,
-#services .pricing-card p,
-#services .feature-list li {
-  color: #1a1a1a;
-}
-
-#services .pricing-card {
-  background: #fff;
-  border: 2px solid #ddd;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-#services .pricing-card:hover {
-  box-shadow: 0 8px 25px rgba(206,17,38,0.2);
-  border-color: #DC143C;
-}
-
-#cursos {
-  background: linear-gradient(180deg, #000e22 0%, #0a1a30 100%);
-}
-
-#diplomas {
-  background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
-}
-
-#diplomas h2,
-#diplomas .diploma-card h4,
-#diplomas .diploma-card p {
-  color: #1a1a1a;
-}
-
-#diplomas .diploma-card {
-  background: #fff;
-  border: 2px solid #ddd;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-#sobremi {
-  background: linear-gradient(180deg, #000e22 0%, #0a1a30 100%);
-}
-
-#contact {
-  background: linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 100%);
-}
-
-/* Light page text adjustments */
-#proyectos .area-card {
-  background: rgba(255,255,255,0.7);
-  border: 2px solid #ddd;
-}
-
-#proyectos .area-card:hover {
-  background: #fff;
-  box-shadow: 0 8px 25px rgba(206,17,38,0.2);
-}
-
-#diplomas .diploma-card {
-  background: #fff;
-}
-
-/* Improve contrast for light backgrounds */
-#services button.btn,
-#diplomas button.btn {
-  background: #DC143C;
-  color: #fff;
-}
-
-#services .edit-desc-btn,
-#services .business-description {
-  background: #fff;
-  color: #1a1a1a;
-}
-
-/* H2 heading colors for light backgrounds */
-#proyectos h2,
-#services h2,
-#diplomas h2,
-#contact h2 {
-  color: #1a1a1a !important;
-  text-shadow: none;
-}
-
-/* Subtitle text for light backgrounds */
-#proyectos > .container > p,
-#services > .container > p,
-#diplomas > .container > p,
-#contact > .container > p {
-  color: #555 !important;
-}
-
-/* Area cards styling */
-#proyectos .area-card h3 {
-  color: #DC143C;
-}
-
-#proyectos .area-card p {
-  color: #666;
-}
-
-/* Project-card buttons on light background */
-#proyectos .btn.admin-only,
-#services .btn.admin-only,
-#diplomas .btn.admin-only {
-  background: #DC143C;
-  color: #fff;
-  border-color: #DC143C;
-}
-
-#proyectos .btn.admin-only:hover,
-#services .btn.admin-only:hover,
-#diplomas .btn.admin-only:hover {
-  background: transparent;
-  color: #DC143C;
-}
-
-/* Modal styling improvements */
-.modal {
-  background: rgba(0,0,0,0.7);
-}
-
-.modal-content {
-  background: #fff;
-  color: #1a1a1a;
-}
-
-.modal-content input,
-.modal-content textarea,
-.modal-content select {
-  background: #f5f5f5;
-  color: #1a1a1a;
-  border: 2px solid #ddd;
-}
-
-.modal-content input:focus,
-.modal-content textarea:focus,
-.modal-content select:focus {
-  border-color: #DC143C;
-  background: #fff;
-}
-
-.modal-content label {
-  color: #DC143C;
-}
-
+</style>
 </head>
 <body>
 
@@ -366,8 +193,6 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
         <button class="nav-btn" onclick="go('cursos', this)">Courses</button>
         <button class="nav-btn" onclick="go('diplomas', this)">Diplomas</button>
         <button class="nav-btn" onclick="go('sobremi', this)">About Me</button>
-        <button class="nav-btn" onclick="go('contact', this)">Contact</button>
-        <button class="nav-btn" onclick="go('contact', this)">Contact</button>
       </nav>
     </div>
   </div>
@@ -591,72 +416,6 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(206,17,38,.2);
         <h4>Associate of Science : Computer Science</h4>
         <p>2023 | Bucks County Community College</p>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- CONTACT PAGE -->
-<div id="contact" class="page" style="background:linear-gradient(180deg,#fff 0%,#f5f5f5 100%)">
-  <div class="container">
-    <h2 style="color:#1a1a1a">Get In Touch</h2>
-    <p style="text-align:center;color:#666;margin-bottom:40px;font-size:1.1rem">Let's discuss your project and how I can help bring your vision to life.</p>
-    
-    <form id="contactForm" style="max-width:600px;margin:0 auto;background:#fff;padding:40px;border-radius:12px;border:1px solid #ddd;box-shadow:0 4px 15px rgba(0,0,0,0.1)">
-      <!-- Name Field -->
-      <div style="margin-bottom:25px">
-        <label style="display:block;color:#DC143C;font-weight:600;margin-bottom:8px">Full Name *</label>
-        <input type="text" id="contactName" placeholder="Your name" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:6px;background:#fff;color:#333;font-size:1rem;transition:border-color 0.3s" onfocus="this.style.borderColor='#DC143C'" onblur="this.style.borderColor='#e0e0e0'" required>
-      </div>
-
-      <!-- Email Field -->
-      <div style="margin-bottom:25px">
-        <label style="display:block;color:#DC143C;font-weight:600;margin-bottom:8px">Email Address *</label>
-        <input type="email" id="contactEmail" placeholder="your@email.com" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:6px;background:#fff;color:#333;font-size:1rem;transition:border-color 0.3s" onfocus="this.style.borderColor='#DC143C'" onblur="this.style.borderColor='#e0e0e0'" required>
-      </div>
-
-      <!-- Website Type Dropdown -->
-      <div style="margin-bottom:25px;padding:20px;background:#f9f9f9;border-radius:8px;border-left:4px solid #DC143C">
-        <label style="display:block;color:#DC143C;font-weight:600;margin-bottom:8px">Type of Website You Need *</label>
-        <select id="websiteType" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:6px;background:#fff;color:#333;font-size:1rem;transition:border-color 0.3s;cursor:pointer" onchange="updateWebsiteDescription()" onfocus="this.style.borderColor='#DC143C'" onblur="this.style.borderColor='#e0e0e0'" required>
-          <option value="">-- Select an option --</option>
-          <option value="regular">Regular Website</option>
-          <option value="ecommerce">E-Commerce Store</option>
-        </select>
-        <p id="websiteDescription" style="color:#555;font-size:0.9rem;margin-top:12px;min-height:40px;padding:10px;background:#fff;border-radius:4px;border-left:3px solid #DC143C"></p>
-      </div>
-
-      <!-- References Field -->
-      <div style="margin-bottom:25px">
-        <label style="display:block;color:#DC143C;font-weight:600;margin-bottom:8px">References</label>
-        <input type="text" id="contactReferences" placeholder="Who referred you / Who you wish to reference" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:6px;background:#fff;color:#333;font-size:1rem;transition:border-color 0.3s" onfocus="this.style.borderColor='#DC143C'" onblur="this.style.borderColor='#e0e0e0'">
-      </div>
-
-      <!-- Language Dropdown -->
-      <div style="margin-bottom:25px;padding:20px;background:#f9f9f9;border-radius:8px;border-left:4px solid #DC143C">
-        <label style="display:block;color:#DC143C;font-weight:600;margin-bottom:8px">Preferred Language *</label>
-        <select id="contactLanguage" style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:6px;background:#fff;color:#333;font-size:1rem;transition:border-color 0.3s;cursor:pointer" onfocus="this.style.borderColor='#DC143C'" onblur="this.style.borderColor='#e0e0e0'" required>
-          <option value="">-- Select a language --</option>
-          <option value="english">English</option>
-          <option value="spanish">Español (Spanish)</option>
-        </select>
-      </div>
-
-      <!-- Message Field -->
-      <div style="margin-bottom:25px">
-        <label style="display:block;color:#DC143C;font-weight:600;margin-bottom:8px">Project Details</label>
-        <textarea id="contactMessage" placeholder="Tell me more about your project..." style="width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:6px;background:#fff;color:#333;font-size:1rem;min-height:120px;resize:vertical;font-family:inherit;transition:border-color 0.3s" onfocus="this.style.borderColor='#DC143C'" onblur="this.style.borderColor='#e0e0e0'"></textarea>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="button" onclick="submitContactForm()" style="width:100%;padding:14px;background:#DC143C;color:#fff;border:none;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 10px rgba(206,17,38,0.3)" onmouseover="this.style.background='#a00';this.style.boxShadow='0 6px 15px rgba(206,17,38,0.4)'" onmouseout="this.style.background='#DC143C';this.style.boxShadow='0 4px 10px rgba(206,17,38,0.3)'">
-        Send Message
-      </button>
-      <p style="text-align:center;color:#999;margin-top:15px;font-size:0.9rem">* Required fields</p>
-    </form>
-
-    <!-- Success Message -->
-    <div id="contactSuccess" style="display:none;max-width:600px;margin:0 auto;padding:25px;background:#e8f5e9;border:2px solid #4CAF50;border-radius:8px;color:#2e7d32;text-align:center;margin-top:30px;font-weight:600;font-size:1.05rem;box-shadow:0 4px 10px rgba(76,175,80,0.2)">
-      ✅ Thank you! Your message has been sent. I'll get back to you soon!
     </div>
   </div>
 </div>
@@ -1226,7 +985,7 @@ function renderPortfolio() {
         <p><strong>URL:</strong> <a href="${p.url}" target="_blank">${p.url}</a></p>
         <p>${p.desc}</p>
         <button class="delete-btn" onclick="deletePortfolio(${p.id})" style="position:absolute;bottom:10px;right:10px">×</button>
-        <button class="delete-btn admin-only" onclick="editPortfolio(${p.id})" style="position:absolute;bottom:10px;right:50px;background:#FFD700;color:#1a1a1a">✎</button>
+        <button class="delete-btn admin-only" onclick="editPortfolio(${p.id})" style="position:absolute;bottom:10px;right:50px;background:#667eea">✎</button>
       </div>
     </div>`;
   });
@@ -1298,194 +1057,16 @@ function renderDiplomas() {
 // ============================================
 // INIT
 // ============================================
-
-// Load data asynchronously without blocking UI
-async function loadDataInBackground() {
-  console.log('🔄 Starting background data load...');
+window.addEventListener('load', async () => {
+  loadProjects();
+  loadPortfolio();
+  loadServices();
+  loadCourses();
+  loadDiplomas();
+  loadBusinessDesc();
   
-  try {
-    // Check backend is ready
-    let backendReady = false;
-    for (let i = 0; i < 10; i++) {
-      try {
-        const response = await fetch(`${API_BASE.replace('/api', '')}/api/health`, {
-          method: 'GET',
-          timeout: 5000
-        });
-        if (response.ok) {
-          console.log('✅ Backend is ready!');
-          backendReady = true;
-          break;
-        }
-      } catch (err) {
-        console.log(`⏳ Waiting for backend... (${i + 1}/10)`);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
-    }
-
-    if (!backendReady) {
-      console.log('⚠️ Backend taking longer than expected, proceeding anyway...');
-    }
-
-    // Load all data with retries
-    await Promise.all([
-      loadProjectsWithRetry(),
-      loadPortfolioWithRetry(),
-      loadServicesWithRetry(),
-      loadCoursesWithRetry(),
-      loadDiplomasWithRetry(),
-      loadBusinessDescWithRetry()
-    ]);
-
-    console.log('✅ All data loaded!');
-  } catch (err) {
-    console.error('Error loading data:', err);
-  }
-
-  // Always check auth when done
+  // Check authentication and show logout button if logged in
   checkAuth();
-}
-
-// Load functions with retry logic
-async function loadProjectsWithRetry(attempts = 0, maxAttempts = 3) {
-  try {
-    const response = await fetch(`${API_BASE}/projects`);
-    if (response.ok) {
-      projs = await response.json();
-      renderProjects();
-      console.log('✅ Projects loaded');
-      return true;
-    }
-  } catch (err) {
-    if (attempts < maxAttempts) {
-      console.log(`🔄 Retrying projects... (${attempts + 1}/${maxAttempts})`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return loadProjectsWithRetry(attempts + 1, maxAttempts);
-    }
-    console.error('❌ Error loading projects:', err);
-    projs = [];
-    renderProjects();
-  }
-  return false;
-}
-
-async function loadPortfolioWithRetry(attempts = 0, maxAttempts = 3) {
-  try {
-    const response = await fetch(`${API_BASE}/portfolio`);
-    if (response.ok) {
-      portfolio = await response.json();
-      renderPortfolio();
-      console.log('✅ Portfolio loaded');
-      return true;
-    }
-  } catch (err) {
-    if (attempts < maxAttempts) {
-      console.log(`🔄 Retrying portfolio... (${attempts + 1}/${maxAttempts})`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return loadPortfolioWithRetry(attempts + 1, maxAttempts);
-    }
-    console.error('❌ Error loading portfolio:', err);
-    portfolio = [];
-    renderPortfolio();
-  }
-  return false;
-}
-
-async function loadServicesWithRetry(attempts = 0, maxAttempts = 3) {
-  try {
-    const response = await fetch(`${API_BASE}/services`);
-    if (response.ok) {
-      services = await response.json();
-      renderServices();
-      console.log('✅ Services loaded');
-      return true;
-    }
-  } catch (err) {
-    if (attempts < maxAttempts) {
-      console.log(`🔄 Retrying services... (${attempts + 1}/${maxAttempts})`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return loadServicesWithRetry(attempts + 1, maxAttempts);
-    }
-    console.error('❌ Error loading services:', err);
-    services = [];
-    renderServices();
-  }
-  return false;
-}
-
-async function loadCoursesWithRetry(attempts = 0, maxAttempts = 3) {
-  try {
-    const response = await fetch(`${API_BASE}/courses`);
-    if (response.ok) {
-      courses = await response.json();
-      renderCourses();
-      console.log('✅ Courses loaded');
-      return true;
-    }
-  } catch (err) {
-    if (attempts < maxAttempts) {
-      console.log(`🔄 Retrying courses... (${attempts + 1}/${maxAttempts})`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return loadCoursesWithRetry(attempts + 1, maxAttempts);
-    }
-    console.error('❌ Error loading courses:', err);
-    courses = [];
-    renderCourses();
-  }
-  return false;
-}
-
-async function loadDiplomasWithRetry(attempts = 0, maxAttempts = 3) {
-  try {
-    const response = await fetch(`${API_BASE}/diplomas`);
-    if (response.ok) {
-      degrees = await response.json();
-      renderDiplomas();
-      console.log('✅ Diplomas loaded');
-      return true;
-    }
-  } catch (err) {
-    if (attempts < maxAttempts) {
-      console.log(`🔄 Retrying diplomas... (${attempts + 1}/${maxAttempts})`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return loadDiplomasWithRetry(attempts + 1, maxAttempts);
-    }
-    console.error('❌ Error loading diplomas:', err);
-    degrees = [];
-    renderDiplomas();
-  }
-  return false;
-}
-
-async function loadBusinessDescWithRetry(attempts = 0, maxAttempts = 3) {
-  try {
-    const response = await fetch(`${API_BASE}/business-desc`);
-    if (response.ok) {
-      const data = await response.json();
-      businessDesc = data.description;
-      if (document.getElementById('business-description')) {
-        document.getElementById('business-description').textContent = businessDesc;
-      }
-      console.log('✅ Business description loaded');
-      return true;
-    }
-  } catch (err) {
-    if (attempts < maxAttempts) {
-      console.log(`🔄 Retrying business description... (${attempts + 1}/${maxAttempts})`);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return loadBusinessDescWithRetry(attempts + 1, maxAttempts);
-    }
-    console.error('❌ Error loading business description:', err);
-    businessDesc = 'Welcome to my freelance services.';
-  }
-  return false;
-}
-
-// Start loading data in background (non-blocking)
-window.addEventListener('load', () => {
-  console.log('📄 Page loaded! Starting background data load...');
-  checkAuth(); // Check auth immediately
-  loadDataInBackground(); // Load data in background
 });
 
 // ============================================
@@ -1567,89 +1148,6 @@ function logout() {
   localStorage.removeItem('portfolioAuth');
   localStorage.removeItem('loginTime');
   window.location.href = 'landing.html';
-}
-
-// ============================================
-// CONTACT FORM FUNCTIONS
-// ============================================
-function updateWebsiteDescription() {
-  const websiteType = document.getElementById('websiteType').value;
-  const descriptionEl = document.getElementById('websiteDescription');
-  
-  if (websiteType === 'regular') {
-    descriptionEl.textContent = '📄 A professional website showcasing your business, portfolio, or services. Perfect for establishing your online presence with pages like home, about, services, and contact.';
-  } else if (websiteType === 'ecommerce') {
-    descriptionEl.textContent = '🛒 A complete online store with product catalog, shopping cart, secure checkout, and payment processing. Ideal for selling products directly to customers online.';
-  } else {
-    descriptionEl.textContent = '';
-  }
-}
-
-function submitContactForm() {
-  const name = document.getElementById('contactName').value.trim();
-  const email = document.getElementById('contactEmail').value.trim();
-  const websiteType = document.getElementById('websiteType').value;
-  const references = document.getElementById('contactReferences').value.trim();
-  const language = document.getElementById('contactLanguage').value;
-  const message = document.getElementById('contactMessage').value.trim();
-  
-  // Validation
-  if (!name || !email || !websiteType || !language) {
-    alert('❌ Please fill in all required fields (marked with *)');
-    return;
-  }
-  
-  // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert('❌ Please enter a valid email address');
-    return;
-  }
-  
-  // Prepare email content
-  const emailBody = `
-Name: ${name}
-Email: ${email}
-Website Type: ${websiteType === 'regular' ? 'Regular Website' : 'E-Commerce Store'}
-References: ${references || 'Not provided'}
-Preferred Language: ${language === 'english' ? 'English' : 'Spanish'}
-
-Project Details:
-${message || 'No additional details provided'}
-  `.trim();
-  
-  // Send email via mailto (opens user's email client)
-  // For production, you'd want to send this to your backend and email service
-  const subject = `New Portfolio Inquiry from ${name}`;
-  const mailtoLink = `mailto:your-email@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-  
-  // Alternative: Store in localStorage or send to backend
-  storeContactInquiry({name, email, websiteType, references, language, message});
-  
-  // Show success message
-  document.getElementById('contactForm').style.display = 'none';
-  document.getElementById('contactSuccess').style.display = 'block';
-  
-  // Reset form after 3 seconds
-  setTimeout(() => {
-    document.getElementById('contactForm').style.display = 'block';
-    document.getElementById('contactSuccess').style.display = 'none';
-    document.getElementById('contactForm').reset();
-    document.getElementById('websiteDescription').textContent = '';
-  }, 3000);
-  
-  console.log('✅ Contact form submitted:', {name, email, websiteType, references, language, message});
-}
-
-function storeContactInquiry(data) {
-  // Store in localStorage for admin to review
-  let inquiries = JSON.parse(localStorage.getItem('contactInquiries') || '[]');
-  inquiries.push({
-    ...data,
-    submittedAt: new Date().toLocaleString()
-  });
-  localStorage.setItem('contactInquiries', JSON.stringify(inquiries));
-  console.log('💾 Inquiry stored locally. Total inquiries:', inquiries.length);
 }
 </script>
 
