@@ -525,8 +525,9 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(91,163,232,.2)
       <textarea id="portfolioDesc" placeholder="Describe the website and your role"></textarea>
     </div>
     <div class="form-group">
-      <label>Screenshot/Image URL</label>
-      <input type="url" id="portfolioImg" placeholder="https://example.com/screenshot.jpg">
+      <label>Screenshot/Image (Click to upload)</label>
+      <input type="file" id="portfolioImg" accept="image/*" onchange="previewImage(this, 'portfolioPreview')">
+      <img id="portfolioPreview" style="max-width:200px;margin-top:10px;display:none">
     </div>
     <div class="form-actions">
       <button class="btn" onclick="addPortfolio()">Add Website</button>
@@ -723,8 +724,19 @@ async function addPortfolio() {
   const company = document.getElementById('portfolioCompany').value;
   const url = document.getElementById('portfolioURL').value;
   const desc = document.getElementById('portfolioDesc').value;
-  const img = document.getElementById('portfolioImg').value;
+  const fileInput = document.getElementById('portfolioImg');
+  
   if (!company || !url || !desc) {alert('Please fill all fields'); return;}
+  
+  let img = '';
+  if (fileInput.files && fileInput.files[0]) {
+    // Convert file to base64
+    img = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+    });
+  }
   
   try {
     const response = await fetch(`${API_BASE}/portfolio`, {
@@ -735,10 +747,7 @@ async function addPortfolio() {
     if (response.ok) {
       loadPortfolio();
       closeModal('portfolioModal');
-      document.getElementById('portfolioCompany').value = '';
-      document.getElementById('portfolioURL').value = '';
-      document.getElementById('portfolioDesc').value = '';
-      document.getElementById('portfolioImg').value = '';
+      resetPortfolioForm();
     } else {
       alert('Error saving portfolio item');
     }
@@ -746,6 +755,7 @@ async function addPortfolio() {
     alert('Error: ' + err.message);
   }
 }
+
 
 async function deletePortfolio(id) {
   if (!confirm('Delete this website?')) return;
@@ -1025,14 +1035,14 @@ function renderPortfolio() {
   let html = '';
   portfolio.forEach(p => {
     const imgHtml = p.img ? `<img src="${p.img}" alt="${p.company}">` : `<span>No image</span>`;
-    html += `<div class="portfolio-card">
+    html += `<div class="portfolio-card" style="position:relative">
       <div class="portfolio-img">${imgHtml}</div>
       <div class="portfolio-info">
         <h4>${p.company}</h4>
         <p><strong>URL:</strong> <a href="${p.url}" target="_blank">${p.url}</a></p>
         <p>${p.desc}</p>
         <button class="delete-btn" onclick="deletePortfolio(${p.id})" style="position:absolute;bottom:10px;right:10px">×</button>
-        
+        <button class="delete-btn" onclick="editPortfolio(${p.id})" style="position:absolute;bottom:10px;right:50px;background:#5BA3E8">✎</button>
       </div>
     </div>`;
   });
@@ -1644,15 +1654,92 @@ async function updateDiploma(id) {
   }
 }
 
-function resetDiplomaForm() {
-  document.getElementById('diplomaName').value = '';
-  document.getElementById('diplomaYear').value = '';
-  document.getElementById('diplomaImg').value = '';
-  const modal = document.getElementById('diplomaModal');
-  modal.querySelector('h3').textContent = 'Add Degree';
+// PREVIEW IMAGE FILE UPLOAD
+function previewImage(input, previewId) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const preview = document.getElementById(previewId);
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// EDIT PORTFOLIO
+function editPortfolio(id) {
+  const item = portfolio.find(p => p.id === id);
+  if (!item) return;
+  document.getElementById('portfolioCompany').value = item.company;
+  document.getElementById('portfolioURL').value = item.url;
+  document.getElementById('portfolioDesc').value = item.desc;
+  const preview = document.getElementById('portfolioPreview');
+  if (item.img) {
+    preview.src = item.img;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
+  const modal = document.getElementById('portfolioModal');
+  modal.querySelector('h3').textContent = 'Edit Website';
   const btn = modal.querySelector('.btn');
-  btn.textContent = 'Add Degree';
-  btn.onclick = addDiploma;
+  btn.textContent = 'Update Website';
+  btn.onclick = () => updatePortfolio(id);
+  openModal('portfolioModal');
+}
+
+async function updatePortfolio(id) {
+  const company = document.getElementById('portfolioCompany').value;
+  const url = document.getElementById('portfolioURL').value;
+  const desc = document.getElementById('portfolioDesc').value;
+  const fileInput = document.getElementById('portfolioImg');
+  
+  if (!company || !url || !desc) {alert('Fill all fields'); return;}
+  
+  let img = '';
+  if (fileInput.files && fileInput.files[0]) {
+    // Convert file to base64
+    img = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+    });
+  } else {
+    // Keep existing image
+    const item = portfolio.find(p => p.id === id);
+    img = item?.img || '';
+  }
+  
+  try {
+    const r = await fetch(`${API_BASE}/portfolio/${id}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({company, url, desc, img})
+    });
+    if (r.ok) {
+      loadPortfolio();
+      closeModal('portfolioModal');
+      resetPortfolioForm();
+    } else {
+      alert('Error saving');
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+function resetPortfolioForm() {
+  document.getElementById('portfolioCompany').value = '';
+  document.getElementById('portfolioURL').value = '';
+  document.getElementById('portfolioDesc').value = '';
+  document.getElementById('portfolioImg').value = '';
+  document.getElementById('portfolioPreview').style.display = 'none';
+  const modal = document.getElementById('portfolioModal');
+  modal.querySelector('h3').textContent = 'Add Website';
+  const btn = modal.querySelector('.btn');
+  btn.textContent = 'Add Website';
+  btn.onclick = addPortfolio;
 }
 
 
