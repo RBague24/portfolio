@@ -394,21 +394,21 @@ app.delete('/api/diplomas/:id', async (req, res) => {
 
 app.put('/api/diplomas/:id', async (req, res) => {
   try {
-    const { name, year, img } = req.body;
-    if (!name || !year) {
+    const { name, institution, year, img } = req.body;
+    if (!name || !institution || !year) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     
     const result = await db.collection('diplomas').updateOne(
       { id: parseInt(req.params.id) },
-      { $set: { name, year, img: img || '', updatedAt: new Date() } }
+      { $set: { name, institution, year, img: img || '', updatedAt: new Date() } }
     );
     
     if (result.matchedCount === 0) {
       return res.status(404).json({ error: 'Diploma not found' });
     }
     
-    res.json({ success: true, name, year, img });
+    res.json({ success: true, name, institution, year, img });
   } catch (err) {
     console.error('PUT /api/diplomas:', err.message);
     res.status(500).json({ error: err.message });
