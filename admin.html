@@ -614,8 +614,9 @@ footer{text-align:center;padding:40px 0;border-top:1px solid rgba(91,163,232,.2)
       <input type="number" id="diplomaYear" placeholder="2024" min="2000" max="2099">
     </div>
     <div class="form-group">
-      <label>Image URL</label>
-      <input type="url" id="diplomaImg" placeholder="https://example.com/diploma.jpg">
+      <label>Image (Click to upload)</label>
+      <input type="file" id="diplomaImg" accept="image/*" onchange="previewImage(this, 'diplomaPreview')">
+      <img id="diplomaPreview" style="max-width:200px;margin-top:10px;display:none">
     </div>
     <div class="form-actions">
       <button class="btn" onclick="addDiploma()">Add Degree</button>
@@ -680,7 +681,7 @@ async function addProject() {
   if (!cat || !name || !desc) {alert('Please fill all fields'); return;}
   
   try {
-    const response = await fetch(`${API_BASE}/projects`, {
+    const response = await fetchWithRetry(`${API_BASE}/projects`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({cat, name, desc})
@@ -702,7 +703,7 @@ async function addProject() {
 async function deleteProject(id) {
   if (!confirm('Delete this project?')) return;
   try {
-    await fetch(`${API_BASE}/projects/${id}`, {method: 'DELETE'});
+    await fetchWithRetry(`${API_BASE}/projects/${id}`, {method: 'DELETE'});
     loadProjects();
   } catch (err) {
     alert('Error deleting project');
@@ -711,7 +712,7 @@ async function deleteProject(id) {
 
 async function loadProjects() {
   try {
-    const response = await fetch(`${API_BASE}/projects`);
+    const response = await fetchWithRetry(`${API_BASE}/projects`);
     projs = await response.json();
     renderProjects();
   } catch (err) {
@@ -739,7 +740,7 @@ async function addPortfolio() {
   }
   
   try {
-    const response = await fetch(`${API_BASE}/portfolio`, {
+    const response = await fetchWithRetry(`${API_BASE}/portfolio`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({company, url, desc, img})
@@ -760,7 +761,7 @@ async function addPortfolio() {
 async function deletePortfolio(id) {
   if (!confirm('Delete this website?')) return;
   try {
-    await fetch(`${API_BASE}/portfolio/${id}`, {method: 'DELETE'});
+    await fetchWithRetry(`${API_BASE}/portfolio/${id}`, {method: 'DELETE'});
     loadPortfolio();
   } catch (err) {
     alert('Error deleting portfolio item');
@@ -793,7 +794,7 @@ async function updatePortfolio(id) {
   if (!company || !url || !desc) {alert('Please fill all fields'); return;}
   
   try {
-    const response = await fetch(`${API_BASE}/portfolio/${id}`, {
+    const response = await fetchWithRetry(`${API_BASE}/portfolio/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({company, url, desc, img})
@@ -820,7 +821,7 @@ async function updatePortfolio(id) {
 
 async function loadPortfolio() {
   try {
-    const response = await fetch(`${API_BASE}/portfolio`);
+    const response = await fetchWithRetry(`${API_BASE}/portfolio`);
     portfolio = await response.json();
     renderPortfolio();
   } catch (err) {
@@ -838,7 +839,7 @@ async function addService() {
   const features = featuresStr.split(',').map(f => f.trim());
   
   try {
-    const response = await fetch(`${API_BASE}/services`, {
+    const response = await fetchWithRetry(`${API_BASE}/services`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({name, price, desc, features})
@@ -861,7 +862,7 @@ async function addService() {
 async function deleteService(id) {
   if (!confirm('Delete this service?')) return;
   try {
-    await fetch(`${API_BASE}/services/${id}`, {method: 'DELETE'});
+    await fetchWithRetry(`${API_BASE}/services/${id}`, {method: 'DELETE'});
     loadServices();
   } catch (err) {
     alert('Error deleting service');
@@ -870,7 +871,7 @@ async function deleteService(id) {
 
 async function loadServices() {
   try {
-    const response = await fetch(`${API_BASE}/services`);
+    const response = await fetchWithRetry(`${API_BASE}/services`);
     services = await response.json();
     renderServices();
   } catch (err) {
@@ -887,7 +888,7 @@ async function addCourse() {
   if (!name || !platform || !status) {alert('Please fill all fields'); return;}
   
   try {
-    const response = await fetch(`${API_BASE}/courses`, {
+    const response = await fetchWithRetry(`${API_BASE}/courses`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({name, platform, status, progress})
@@ -910,7 +911,7 @@ async function addCourse() {
 async function deleteCourse(id) {
   if (!confirm('Delete this course?')) return;
   try {
-    await fetch(`${API_BASE}/courses/${id}`, {method: 'DELETE'});
+    await fetchWithRetry(`${API_BASE}/courses/${id}`, {method: 'DELETE'});
     loadCourses();
   } catch (err) {
     alert('Error deleting course');
@@ -919,7 +920,7 @@ async function deleteCourse(id) {
 
 async function loadCourses() {
   try {
-    const response = await fetch(`${API_BASE}/courses`);
+    const response = await fetchWithRetry(`${API_BASE}/courses`);
     courses = await response.json();
     renderCourses();
   } catch (err) {
@@ -932,11 +933,22 @@ async function addDiploma() {
   const name = document.getElementById('diplomaName').value;
   const institution = document.getElementById('diplomaInstitution').value;
   const year = parseInt(document.getElementById('diplomaYear').value);
-  const img = document.getElementById('diplomaImg').value;
+  const fileInput = document.getElementById('diplomaImg');
+  
   if (!name || !institution || !year) {alert('Please fill all fields'); return;}
   
+  let img = '';
+  if (fileInput.files && fileInput.files[0]) {
+    // Convert file to base64
+    img = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+    });
+  }
+  
   try {
-    const response = await fetch(`${API_BASE}/diplomas`, {
+    const response = await fetchWithRetry(`${API_BASE}/diplomas`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({name, institution, year, img})
@@ -944,10 +956,7 @@ async function addDiploma() {
     if (response.ok) {
       loadDiplomas();
       closeModal('diplomaModal');
-      document.getElementById('diplomaName').value = '';
-      document.getElementById('diplomaInstitution').value = '';
-      document.getElementById('diplomaYear').value = '';
-      document.getElementById('diplomaImg').value = '';
+      resetDiplomaForm();
     } else {
       alert('Error saving diploma');
     }
@@ -959,7 +968,7 @@ async function addDiploma() {
 async function deleteDiploma(id) {
   if (!confirm('Delete this degree?')) return;
   try {
-    await fetch(`${API_BASE}/diplomas/${id}`, {method: 'DELETE'});
+    await fetchWithRetry(`${API_BASE}/diplomas/${id}`, {method: 'DELETE'});
     loadDiplomas();
   } catch (err) {
     alert('Error deleting diploma');
@@ -968,7 +977,7 @@ async function deleteDiploma(id) {
 
 async function loadDiplomas() {
   try {
-    const response = await fetch(`${API_BASE}/diplomas`);
+    const response = await fetchWithRetry(`${API_BASE}/diplomas`);
     degrees = await response.json();
     renderDiplomas();
   } catch (err) {
@@ -979,7 +988,7 @@ async function loadDiplomas() {
 // BUSINESS DESCRIPTION
 async function loadBusinessDesc() {
   try {
-    const response = await fetch(`${API_BASE}/business-desc`);
+    const response = await fetchWithRetry(`${API_BASE}/business-desc`);
     const data = await response.json();
     businessDesc = data.description;
     document.getElementById('business-description').textContent = businessDesc;
@@ -992,7 +1001,7 @@ async function editBusinessDesc() {
   const newDesc = prompt('Edit business description:', businessDesc);
   if (newDesc !== null && newDesc.trim() !== '') {
     try {
-      const response = await fetch(`${API_BASE}/business-desc`, {
+      const response = await fetchWithRetry(`${API_BASE}/business-desc`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({description: newDesc})
@@ -1239,7 +1248,7 @@ async function updateProject(id) {
   if (!name || !desc) {alert('Please fill all fields'); return;}
   
   try {
-    const response = await fetch(`${API_BASE}/projects/${id}`, {
+    const response = await fetchWithRetry(`${API_BASE}/projects/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({name, desc})
@@ -1291,7 +1300,7 @@ async function updateService(id) {
   if (!title || !price || features.length === 0) {alert('Please fill all fields'); return;}
   
   try {
-    const response = await fetch(`${API_BASE}/services/${id}`, {
+    const response = await fetchWithRetry(`${API_BASE}/services/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({title, price, features})
@@ -1344,7 +1353,7 @@ async function updateCourse(id) {
   if (!name || !status) {alert('Please fill all fields'); return;}
   
   try {
-    const response = await fetch(`${API_BASE}/courses/${id}`, {
+    const response = await fetchWithRetry(`${API_BASE}/courses/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({name, status, progress})
@@ -1372,52 +1381,12 @@ function resetCourseForm() {
 }
 
 // DIPLOMAS
-function editDiploma(id) {
-  const item = degrees.find(d => d.id === id);
-  if (!item) return;
-  
-  document.getElementById('diplomaName').value = item.name;
-  document.getElementById('diplomaYear').value = item.year;
-  document.getElementById('diplomaImg').value = item.img || '';
-  
-  const modal = document.getElementById('diplomaModal');
-  modal.querySelector('h3').textContent = 'Edit Degree';
-  const addBtn = modal.querySelector('.btn');
-  addBtn.textContent = 'Update Degree';
-  addBtn.onclick = () => updateDiploma(id);
-  
-  openModal('diplomaModal');
-}
-
-async function updateDiploma(id) {
-  const name = document.getElementById('diplomaName').value;
-  const year = document.getElementById('diplomaYear').value;
-  const img = document.getElementById('diplomaImg').value;
-  
-  if (!name || !year) {alert('Please fill all fields'); return;}
-  
-  try {
-    const response = await fetch(`${API_BASE}/diplomas/${id}`, {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, year, img})
-    });
-    if (response.ok) {
-      loadDiplomas();
-      closeModal('diplomaModal');
-      resetDiplomaForm();
-    } else {
-      alert('Error updating diploma');
-    }
-  } catch (err) {
-    alert('Error: ' + err.message);
-  }
-}
-
 function resetDiplomaForm() {
   document.getElementById('diplomaName').value = '';
+  document.getElementById('diplomaInstitution').value = '';
   document.getElementById('diplomaYear').value = '';
   document.getElementById('diplomaImg').value = '';
+  document.getElementById('diplomaPreview').style.display = 'none';
   const modal = document.getElementById('diplomaModal');
   modal.querySelector('h3').textContent = 'Add Degree';
   modal.querySelector('.btn').textContent = 'Add Degree';
@@ -1465,11 +1434,71 @@ function adminLogout() {
 }
 
 // CHECK IF ALREADY LOGGED IN
+// ============================================
+// RETRY WRAPPER FOR COLD-START HANDLING
+// ============================================
+async function fetchWithRetry(url, options = {}, maxRetries = 3) {
+  let lastError;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      
+      const response = await fetchWithRetry(url, {
+        ...options,
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeout);
+      
+      if (response.ok) {
+        return response;
+      }
+      
+      if (response.status >= 500) {
+        lastError = new Error(`Server error: ${response.status}`);
+        console.log(`⚠️  Attempt ${attempt}/${maxRetries} failed (${response.status}), retrying...`);
+        
+        if (attempt < maxRetries) {
+          const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+        continue;
+      }
+      
+      return response;
+    } catch (err) {
+      lastError = err;
+      console.log(`⚠️  Attempt ${attempt}/${maxRetries} failed: ${err.message}`);
+      
+      if (attempt < maxRetries) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+  
+  throw lastError;
+}
+
 window.addEventListener('load', () => {
   if (localStorage.getItem('adminAuth')) {
     document.getElementById('adminLoginModal').style.display = 'none';
     document.getElementById('adminLogoutBtn').style.display = 'block';
   }
+  
+  // ============================================
+  // KEEP SERVER WARM (Render Cold-Start Prevention)
+  // ============================================
+  // Ping the health endpoint every 5 minutes to prevent Render from spinning down
+  console.log('✅ Keep-alive enabled - pinging server every 5 minutes');
+  setInterval(() => {
+    fetchWithRetry(`${API_BASE}/health`)
+      .then(r => r.json())
+      .then(data => console.log('🔄 Server ping successful'))
+      .catch(err => console.log('⚠️ Keep-alive ping failed (this is okay if server is asleep)'));
+  }, 5 * 60 * 1000); // 5 minutes
 });
 
 // EDIT PROJECT
@@ -1491,7 +1520,7 @@ async function updateProject(id) {
   const desc = document.getElementById('projectDesc').value;
   if (!name || !desc) {alert('Fill all fields'); return;}
   try {
-    const r = await fetch(`${API_BASE}/projects/${id}`, {
+    const r = await fetchWithRetry(`${API_BASE}/projects/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({name, desc})
@@ -1539,7 +1568,7 @@ async function updateService(id) {
   const features = document.getElementById('serviceFeatures').value.split(',').map(f => f.trim());
   if (!title || !price || !features[0]) {alert('Fill all fields'); return;}
   try {
-    const r = await fetch(`${API_BASE}/services/${id}`, {
+    const r = await fetchWithRetry(`${API_BASE}/services/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({title, price, features})
@@ -1588,7 +1617,7 @@ async function updateCourse(id) {
   const progress = parseInt(document.getElementById('courseProgress').value) || 0;
   if (!name || !status) {alert('Fill all fields'); return;}
   try {
-    const r = await fetch(`${API_BASE}/courses/${id}`, {
+    const r = await fetchWithRetry(`${API_BASE}/courses/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({name, status, progress})
@@ -1621,8 +1650,15 @@ function editDiploma(id) {
   const item = degrees.find(d => d.id === id);
   if (!item) return;
   document.getElementById('diplomaName').value = item.name;
+  document.getElementById('diplomaInstitution').value = item.institution || '';
   document.getElementById('diplomaYear').value = item.year;
-  document.getElementById('diplomaImg').value = item.img || '';
+  const preview = document.getElementById('diplomaPreview');
+  if (item.img) {
+    preview.src = item.img;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
   const modal = document.getElementById('diplomaModal');
   modal.querySelector('h3').textContent = 'Edit Degree';
   const btn = modal.querySelector('.btn');
@@ -1633,14 +1669,31 @@ function editDiploma(id) {
 
 async function updateDiploma(id) {
   const name = document.getElementById('diplomaName').value;
+  const institution = document.getElementById('diplomaInstitution').value;
   const year = document.getElementById('diplomaYear').value;
-  const img = document.getElementById('diplomaImg').value;
-  if (!name || !year) {alert('Fill all fields'); return;}
+  const fileInput = document.getElementById('diplomaImg');
+  
+  if (!name || !institution || !year) {alert('Fill all fields'); return;}
+  
+  let img = '';
+  if (fileInput.files && fileInput.files[0]) {
+    // Convert file to base64
+    img = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+    });
+  } else {
+    // Keep existing image
+    const item = degrees.find(d => d.id === id);
+    img = item?.img || '';
+  }
+  
   try {
-    const r = await fetch(`${API_BASE}/diplomas/${id}`, {
+    const r = await fetchWithRetry(`${API_BASE}/diplomas/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, year, img})
+      body: JSON.stringify({name, institution, year, img})
     });
     if (r.ok) {
       loadDiplomas();
@@ -1712,7 +1765,7 @@ async function updatePortfolio(id) {
   }
   
   try {
-    const r = await fetch(`${API_BASE}/portfolio/${id}`, {
+    const r = await fetchWithRetry(`${API_BASE}/portfolio/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({company, url, desc, img})
