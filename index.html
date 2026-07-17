@@ -78,7 +78,7 @@ nav button.active{color:#4CAF50;border-bottom:3px solid #FFC107;padding-bottom:5
    HERO / HOME PAGE
    ============================================ */
 .hero{background:linear-gradient(135deg,#1F1F1F 0%,#2B2B2B 100%);padding:120px 0;text-align:center;color:#fff;position:relative;overflow:hidden;border-bottom:3px solid #4CAF50}
-.hero::after{content:'';position:absolute;top:0;right:0;width:500px;height:100%;background:url('rb-mascot.png');background-size:contain;background-repeat:no-repeat;opacity:0.15;pointer-events:none}
+/* .hero::after{content:'';position:absolute;top:0;right:0;width:500px;height:100%;background:url('rb-mascot.png');background-size:contain;background-repeat:no-repeat;opacity:0.15;pointer-events:none} */
 .hero h1{font-family:'Playfair Display',serif;font-size:64px;margin:20px 0;color:#4CAF50;font-weight:700;position:relative;z-index:2}
 .hero p{font-size:20px;color:#ffc107;margin:20px 0;max-width:700px;margin-left:auto;margin-right:auto;position:relative;z-index:2}
 .hero .badge{display:inline-block;background:#4CAF50;color:#1F1F1F;padding:12px 24px;border-radius:50px;margin:20px 0;font-size:14px;font-weight:700;position:relative;z-index:2}
@@ -260,6 +260,10 @@ footer{text-align:center;padding:40px 0;border-top:1px solid #4CAF50;color:#CCCC
 <div id="inicio" class="page active">
   <div class="hero" style="position:relative;overflow:hidden">
     <!-- Background mascot -->
+     <div style="position:absolute;right:-50px;top:50%;transform:translateY(-50%);opacity:0.15;z-index:1;pointer-events:none">
+      <img src="rb-mascot.png" alt="RB Mascot Background" style="width:400px;height:auto;filter:drop-shadow(0 10px 30px rgba(91,163,232,0.3))">
+    </div>
+
     <div style="position:absolute;bottom:10%;right:8%;z-index:0;animation:float 7s ease-in-out infinite 1s;opacity:0.25">
       <img src="rb-codepacabra.png" alt="RB Mascot Background" style="width:100px;height:auto;filter:drop-shadow(0 5px 15px rgba(0,0,0,0.3))">
     </div>
@@ -460,8 +464,9 @@ footer{text-align:center;padding:40px 0;border-top:1px solid #4CAF50;color:#CCCC
     
     <div class="about-hero">
       <div class="about-photo">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwwDAwMFBAMDAwMFBAMDAwUFBQQEBQUGBQYFBQoHBwcGBQoICAgICAgICAgICAj/2wBDAQICAgICAwUDAwUICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgj/wAARCACwALADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9k=" style="width:100%;height:100%;object-fit:cover">
+        <img src="rb-pic.jpg" style="width:100%;height:100%;object-fit:cover">
       </div>
+      
       <div class="about-text">
         <h3>Hi, my name is Raphy Bagué Muñiz</h3>
         <p>I'm passionate about building elegant digital solutions that solve real problems. With a strong foundation in web development, software engineering, and emerging technologies like AI/ML, I create impactful projects that blend creativity with technical excellence.</p>
