@@ -1468,7 +1468,7 @@ function editService(id) {
 
 async function updateService(id) {
   const name = document.getElementById('serviceName').value;
-  const price = document.getElementById('servicePrice').value;
+  const price = parseInt(document.getElementById('servicePrice').value);
   const desc = document.getElementById('serviceDesc').value;
   const features = document.getElementById('serviceFeatures').value.split(',').map(f => f.trim());
   if (!name || !price || !desc || !features[0]) {alert('Fill all fields'); return;}
