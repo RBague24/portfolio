@@ -730,18 +730,6 @@ footer{text-align:center;padding:40px 0;border-top:1px solid #4CAF50;color:#CCCC
     </div>
     
     <div class="form-group">
-      <label>Budget Range (optional)</label>
-      <select id="contactBudget">
-        <option value="">-- Select budget --</option>
-        <option value="Under-1k">Under $1,000</option>
-        <option value="1k-5k">$1,000 - $5,000</option>
-        <option value="5k-10k">$5,000 - $10,000</option>
-        <option value="10k-25k">$10,000 - $25,000</option>
-        <option value="25k+">$25,000+</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
       <label>Project Details / Additional Notes</label>
       <textarea id="contactMessage" placeholder="Tell me more about your project, your goals, features you need, etc."></textarea>
     </div>
@@ -1243,7 +1231,6 @@ async function submitContactForm() {
   const websiteType = document.getElementById('contactWebsiteType').value;
   const referral = document.getElementById('contactReferral').value.trim();
   const timeline = document.getElementById('contactTimeline').value;
-  const budget = document.getElementById('contactBudget').value;
   const message = document.getElementById('contactMessage').value.trim();
 
   // Validate required fields
@@ -1273,7 +1260,6 @@ async function submitContactForm() {
         websiteType: websiteType,
         referral: referral || 'Not specified',
         timeline: timeline,
-        budget: budget || 'Not specified',
         message: message,
         _captcha: false,
         _next: window.location.href
@@ -1290,7 +1276,6 @@ async function submitContactForm() {
       document.getElementById('contactWebsiteType').value = '';
       document.getElementById('contactReferral').value = '';
       document.getElementById('contactTimeline').value = '';
-      document.getElementById('contactBudget').value = '';
       document.getElementById('contactMessage').value = '';
 
       // Close modal
