@@ -1326,8 +1326,7 @@ async function updateService(id) {
     const r = await fetch(`${API_BASE}/services/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      // Note: the update endpoint expects "title" here, unlike the add endpoint which expects "name"
-      body: JSON.stringify({title: name, price, desc, features})
+      body: JSON.stringify({name, price, desc, features})
     });
     if (r.ok) {
       loadServices();
