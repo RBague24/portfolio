@@ -27,8 +27,8 @@ nav button.active{color:#4CAF50;border-bottom:3px solid #FFC107;padding-bottom:5
 /* ============================================
    PAGE STRUCTURE
    ============================================ */
-.page{display:none;padding:80px 0;min-height:100vh;position:relative;background-size:contain;background-repeat:no-repeat;background-attachment:fixed;background-position:bottom right}
-.page::before{content:'';position:absolute;top:0;right:0;width:400px;height:100%;background-size:contain;background-repeat:no-repeat;background-attachment:fixed;opacity:0.05;pointer-events:none;z-index:1}
+.page{display:none;padding:80px 0;min-height:100vh;position:relative;background-size:contain;background-repeat:no-repeat;background-position:bottom right}
+.page::before{content:'';position:absolute;top:0;right:0;width:400px;height:100%;background-size:contain;background-repeat:no-repeat;opacity:0.05;pointer-events:none;z-index:1}
 .page.active{display:block}
 
 /* ============================================
@@ -36,32 +36,32 @@ nav button.active{color:#4CAF50;border-bottom:3px solid #FFC107;padding-bottom:5
    ============================================ */
 #proyectos::before{
   background-image:url('mascot-projects.png');
-  opacity:0.1;
+  opacity:0.18;
 }
 
 #freelance::before{
   background-image:url('mascot-freelance.png');
-  opacity:0.1;
+  opacity:0.18;
 }
 
 #services::before{
   background-image:url('mascot-services.png');
-  opacity:0.11;
+  opacity:0.19;
 }
 
 #cursos::before{
   background-image:url('mascot-courses.png');
-  opacity:0.09;
+  opacity:0.17;
 }
 
 #diplomas::before{
   background-image:url('mascot-diplomas.png');
-  opacity:0.1;
+  opacity:0.18;
 }
 
 #sobremi::before{
   background-image:url('mascot-about.png');
-  opacity:0.12;
+  opacity:0.2;
 }
 
 /* All backgrounds use same positioning */
@@ -73,6 +73,7 @@ nav button.active{color:#4CAF50;border-bottom:3px solid #FFC107;padding-bottom:5
 #sobremi::before{
   background-position:bottom right;
   background-size:450px auto;
+  filter:brightness(1.3) contrast(1.1);
 }
 
 /* ============================================
@@ -1467,32 +1468,34 @@ function resetProjectForm() {
 function editService(id) {
   const item = services.find(s => s.id === id);
   if (!item) return;
-  
-  document.getElementById('serviceTitle').value = item.title;
+
+  document.getElementById('serviceName').value = item.name;
   document.getElementById('servicePrice').value = item.price;
+  document.getElementById('serviceDesc').value = item.desc;
   document.getElementById('serviceFeatures').value = item.features.join(', ');
-  
+
   const modal = document.getElementById('serviceModal');
   modal.querySelector('h3').textContent = 'Edit Service';
   const addBtn = modal.querySelector('.btn');
   addBtn.textContent = 'Update Service';
   addBtn.onclick = () => updateService(id);
-  
+
   openModal('serviceModal');
 }
 
 async function updateService(id) {
-  const title = document.getElementById('serviceTitle').value;
-  const price = document.getElementById('servicePrice').value;
+  const name = document.getElementById('serviceName').value;
+  const price = parseInt(document.getElementById('servicePrice').value);
+  const desc = document.getElementById('serviceDesc').value;
   const features = document.getElementById('serviceFeatures').value.split(',').map(f => f.trim());
-  
-  if (!title || !price || features.length === 0) {alert('Please fill all fields'); return;}
-  
+
+  if (!name || !price || !desc || features.length === 0) {alert('Please fill all fields'); return;}
+
   try {
     const response = await fetch(`${API_BASE}/services/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({title, price, features})
+      body: JSON.stringify({name, price, desc, features})
     });
     if (response.ok) {
       loadServices();
@@ -1507,8 +1510,9 @@ async function updateService(id) {
 }
 
 function resetServiceForm() {
-  document.getElementById('serviceTitle').value = '';
+  document.getElementById('serviceName').value = '';
   document.getElementById('servicePrice').value = '';
+  document.getElementById('serviceDesc').value = '';
   document.getElementById('serviceFeatures').value = '';
   const modal = document.getElementById('serviceModal');
   modal.querySelector('h3').textContent = 'Add Service';
