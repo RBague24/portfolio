@@ -768,57 +768,6 @@ async function deletePortfolio(id) {
   }
 }
 
-function editPortfolio(id) {
-  const item = portfolio.find(p => p.id === id);
-  if (!item) return;
-  
-  document.getElementById('portfolioCompany').value = item.company;
-  document.getElementById('portfolioURL').value = item.url;
-  document.getElementById('portfolioDesc').value = item.desc;
-  document.getElementById('portfolioImg').value = item.img || '';
-  
-  const modal = document.getElementById('portfolioModal');
-  modal.querySelector('h3').textContent = 'Edit Website';
-  const addBtn = modal.querySelector('.btn');
-  addBtn.textContent = 'Update Website';
-  addBtn.onclick = () => updatePortfolio(id);
-  
-  openModal('portfolioModal');
-}
-
-async function updatePortfolio(id) {
-  const company = document.getElementById('portfolioCompany').value;
-  const url = document.getElementById('portfolioURL').value;
-  const desc = document.getElementById('portfolioDesc').value;
-  const img = document.getElementById('portfolioImg').value;
-  if (!company || !url || !desc) {alert('Please fill all fields'); return;}
-  
-  try {
-    const response = await fetch(`${API_BASE}/portfolio/${id}`, {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({company, url, desc, img})
-    });
-    if (response.ok) {
-      loadPortfolio();
-      closeModal('portfolioModal');
-      document.getElementById('portfolioCompany').value = '';
-      document.getElementById('portfolioURL').value = '';
-      document.getElementById('portfolioDesc').value = '';
-      document.getElementById('portfolioImg').value = '';
-      // Reset button back to Add
-      const modal = document.getElementById('portfolioModal');
-      modal.querySelector('h3').textContent = 'Add Website';
-      modal.querySelector('.btn').textContent = 'Add Website';
-      modal.querySelector('.btn').onclick = addPortfolio;
-    } else {
-      alert('Error updating portfolio item');
-    }
-  } catch (err) {
-    alert('Error: ' + err.message);
-  }
-}
-
 async function loadPortfolio() {
   try {
     const response = await fetch(`${API_BASE}/portfolio`);
@@ -1225,108 +1174,6 @@ function logout() {
 // EDIT FUNCTIONS FOR ALL ELEMENTS
 // ============================================
 
-// PROJECTS
-function editProject(id) {
-  const item = projs.find(p => p.id === id);
-  if (!item) return;
-  
-  document.getElementById('projectName').value = item.name;
-  document.getElementById('projectDesc').value = item.desc;
-  
-  const modal = document.getElementById('projectModal');
-  modal.querySelector('h3').textContent = 'Edit Project';
-  const addBtn = modal.querySelector('.btn');
-  addBtn.textContent = 'Update Project';
-  addBtn.onclick = () => updateProject(id);
-  
-  openModal('projectModal');
-}
-
-async function updateProject(id) {
-  const name = document.getElementById('projectName').value;
-  const desc = document.getElementById('projectDesc').value;
-  if (!name || !desc) {alert('Please fill all fields'); return;}
-  
-  try {
-    const response = await fetch(`${API_BASE}/projects/${id}`, {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, desc})
-    });
-    if (response.ok) {
-      loadProjects();
-      closeModal('projectModal');
-      resetProjectForm();
-    } else {
-      alert('Error updating project');
-    }
-  } catch (err) {
-    alert('Error: ' + err.message);
-  }
-}
-
-function resetProjectForm() {
-  document.getElementById('projectName').value = '';
-  document.getElementById('projectDesc').value = '';
-  const modal = document.getElementById('projectModal');
-  modal.querySelector('h3').textContent = 'Add Project';
-  modal.querySelector('.btn').textContent = 'Add Project';
-  modal.querySelector('.btn').onclick = addProject;
-}
-
-// COURSES
-function editCourse(id) {
-  const item = courses.find(c => c.id === id);
-  if (!item) return;
-  
-  document.getElementById('courseName').value = item.name;
-  document.getElementById('courseStatus').value = item.status;
-  document.getElementById('courseProgress').value = item.progress || 0;
-  
-  const modal = document.getElementById('courseModal');
-  modal.querySelector('h3').textContent = 'Edit Course';
-  const addBtn = modal.querySelector('.btn');
-  addBtn.textContent = 'Update Course';
-  addBtn.onclick = () => updateCourse(id);
-  
-  openModal('courseModal');
-}
-
-async function updateCourse(id) {
-  const name = document.getElementById('courseName').value;
-  const status = document.getElementById('courseStatus').value;
-  const progress = parseInt(document.getElementById('courseProgress').value) || 0;
-  
-  if (!name || !status) {alert('Please fill all fields'); return;}
-  
-  try {
-    const response = await fetch(`${API_BASE}/courses/${id}`, {
-      method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, status, progress})
-    });
-    if (response.ok) {
-      loadCourses();
-      closeModal('courseModal');
-      resetCourseForm();
-    } else {
-      alert('Error updating course');
-    }
-  } catch (err) {
-    alert('Error: ' + err.message);
-  }
-}
-
-function resetCourseForm() {
-  document.getElementById('courseName').value = '';
-  document.getElementById('courseStatus').value = 'In Progress';
-  document.getElementById('courseProgress').value = 0;
-  const modal = document.getElementById('courseModal');
-  modal.querySelector('h3').textContent = 'Add Course';
-  modal.querySelector('.btn').textContent = 'Add Course';
-  modal.querySelector('.btn').onclick = addCourse;
-}
-
 // DIPLOMAS
 function resetDiplomaForm() {
   document.getElementById('diplomaName').value = '';
@@ -1408,6 +1255,7 @@ window.addEventListener('load', () => {
 function editProject(id) {
   const item = projs.find(p => p.id === id);
   if (!item) return;
+  document.getElementById('projectCategory').value = item.cat;
   document.getElementById('projectName').value = item.name;
   document.getElementById('projectDesc').value = item.desc;
   const modal = document.getElementById('projectModal');
@@ -1419,14 +1267,15 @@ function editProject(id) {
 }
 
 async function updateProject(id) {
+  const cat = document.getElementById('projectCategory').value;
   const name = document.getElementById('projectName').value;
   const desc = document.getElementById('projectDesc').value;
-  if (!name || !desc) {alert('Fill all fields'); return;}
+  if (!cat || !name || !desc) {alert('Fill all fields'); return;}
   try {
     const r = await fetch(`${API_BASE}/projects/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, desc})
+      body: JSON.stringify({cat, name, desc})
     });
     if (r.ok) {
       loadProjects();
@@ -1441,6 +1290,7 @@ async function updateProject(id) {
 }
 
 function resetProjectForm() {
+  document.getElementById('projectCategory').value = '';
   document.getElementById('projectName').value = '';
   document.getElementById('projectDesc').value = '';
   const modal = document.getElementById('projectModal');
@@ -1507,6 +1357,7 @@ function editCourse(id) {
   const item = courses.find(c => c.id === id);
   if (!item) return;
   document.getElementById('courseName').value = item.name;
+  document.getElementById('coursePlatform').value = item.platform;
   document.getElementById('courseStatus').value = item.status;
   document.getElementById('courseProgress').value = item.progress || 0;
   const modal = document.getElementById('courseModal');
@@ -1519,14 +1370,15 @@ function editCourse(id) {
 
 async function updateCourse(id) {
   const name = document.getElementById('courseName').value;
+  const platform = document.getElementById('coursePlatform').value;
   const status = document.getElementById('courseStatus').value;
   const progress = parseInt(document.getElementById('courseProgress').value) || 0;
-  if (!name || !status) {alert('Fill all fields'); return;}
+  if (!name || !platform || !status) {alert('Fill all fields'); return;}
   try {
     const r = await fetch(`${API_BASE}/courses/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, status, progress})
+      body: JSON.stringify({name, platform, status, progress})
     });
     if (r.ok) {
       loadCourses();
@@ -1542,7 +1394,8 @@ async function updateCourse(id) {
 
 function resetCourseForm() {
   document.getElementById('courseName').value = '';
-  document.getElementById('courseStatus').value = 'In Progress';
+  document.getElementById('coursePlatform').value = '';
+  document.getElementById('courseStatus').value = 'completed';
   document.getElementById('courseProgress').value = 0;
   const modal = document.getElementById('courseModal');
   modal.querySelector('h3').textContent = 'Add Course';
