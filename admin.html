@@ -1326,14 +1326,16 @@ async function updateService(id) {
     const r = await fetch(`${API_BASE}/services/${id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, price, desc, features})
+      // Note: the update endpoint expects "title" here, unlike the add endpoint which expects "name"
+      body: JSON.stringify({title: name, price, desc, features})
     });
     if (r.ok) {
       loadServices();
       closeModal('serviceModal');
       resetServiceForm();
     } else {
-      alert('Error saving');
+      const errBody = await r.json().catch(() => null);
+      alert('Error saving' + (errBody?.error ? ': ' + errBody.error : ''));
     }
   } catch (err) {
     alert('Error: ' + err.message);
